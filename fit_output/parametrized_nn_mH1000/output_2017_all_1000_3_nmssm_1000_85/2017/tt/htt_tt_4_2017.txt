@@ -1,0 +1,105 @@
+# Datacard produced by CombineHarvester with git status: analysis-HIG-16-006-freeze-080416-823-gf40d2c8-dirty
+imax    1 number of bins
+jmax    9 number of processes minus 1
+kmax    * number of nuisance parameters
+--------------------------------------------------------------------------------
+shapes * htt_tt_4_2017 common/htt_input_2017.root htt_tt_4_2017/$PROCESS htt_tt_4_2017/$PROCESS_$SYSTEMATIC
+--------------------------------------------------------------------------------
+bin          htt_tt_4_2017   
+observation  1314.0          
+--------------------------------------------------------------------------------
+bin                                           htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   htt_tt_4_2017   
+process                                       EMB             ZL              TTL             VVL             jetFakes        ttH125          VH125           ggH125          qqH125          NMSSM_1000_125_85 
+process                                       1               2               3               4               5               6               7               8               9               0               
+rate                                          255.764         8.48313         4.58201         1.32888         924.962         0.242412        0.123193        5.60925         0.979746        0.183828        
+--------------------------------------------------------------------------------
+BR_htt                                lnN     -               -               -               -               -               1.021           1.021           1.021           1.021           -               
+CMS_1ProngPi0Eff                      shape   0.71            -               -               -               -               -               -               -               -               -               
+CMS_1ProngPi0Eff_2017                 shape   0.71            -               -               -               -               -               -               -               -               -               
+CMS_3ProngEff                         shape   0.71            -               -               -               -               -               -               -               -               -               
+CMS_3ProngEff_2017                    shape   0.71            -               -               -               -               -               -               -               -               -               
+CMS_eff_t_dm0_2017                    shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_eff_t_dm10_2017                   shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_eff_t_dm11_2017                   shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_eff_t_dm1_2017                    shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_eff_t_emb_dm0_2017                shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_t_emb_dm10_2017               shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_t_emb_dm11_2017               shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_t_emb_dm1_2017                shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_t_emb_tt_2017                 lnN     1.007           -               -               -               -               -               -               -               -               -               
+CMS_eff_t_tt_2017                     lnN     1.012           -               1.014           1.014           -               1.014           1.014           1.014           1.014           1.014           
+CMS_eff_t_wp_2017                     lnN     1.03            -               1.03            1.03            -               1.03            1.03            1.03            1.03            -               
+CMS_eff_trigger_emb_tt_dm0_2017       shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_trigger_emb_tt_dm10_2017      shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_trigger_emb_tt_dm11_2017      shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_trigger_emb_tt_dm1_2017       shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_eff_trigger_tt_dm0_2017           shape   0.5             1               1               1               -               1               1               1               1               1               
+CMS_eff_trigger_tt_dm10_2017          shape   0.5             1               1               1               -               1               1               1               1               1               
+CMS_eff_trigger_tt_dm11_2017          shape   0.5             1               1               1               -               1               1               1               1               1               
+CMS_eff_trigger_tt_dm1_2017           shape   0.5             1               1               1               -               1               1               1               1               1               
+CMS_ff_corr_qcd_mvis_osss_tt_2017     shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_corr_qcd_mvis_tt_2017          shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_corr_qcd_tau2_pt_tt_2017       shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_norm_stat_tt_tt_ff_2017        lnN     -               -               -               -               1.029           -               -               -               -               -               
+CMS_ff_norm_syst_tt                   lnN     -               -               -               -               1.067           -               -               -               -               -               
+CMS_ff_norm_syst_tt_2017              lnN     -               -               -               -               1.067           -               -               -               -               -               
+CMS_ff_qcd_mc_tt_2017                 shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_mvis_osss_tt_2017          shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_mvis_tt_2017               shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_njet0_morphed_stat_tt_2017 shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_njet1_morphed_stat_tt_2017 shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_njet2_morphed_stat_tt_2017 shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_qcd_tau2_pt_tt_2017            shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_tt_syst_tt_2017                shape   -               -               -               -               1               -               -               -               -               -               
+CMS_ff_w_syst_tt_2017                 shape   -               -               -               -               1               -               -               -               -               -               
+CMS_htt_boson_res_met_2017            shape   -               1               -               -               -               1               1               1               1               1               
+CMS_htt_boson_scale_met_2017          shape   -               1               -               -               -               1               1               1               1               1               
+CMS_htt_doublemutrg_2017              lnN     1.04            -               -               -               -               -               -               -               -               -               
+CMS_htt_dyShape                       shape   -               0.1             -               -               -               -               -               -               -               -               
+CMS_htt_eff_b_2017                    shape   -               0.71            0.71            0.71            -               0.71            0.71            0.71            0.71            0.71            
+CMS_htt_emb_ttbar_2017                shape   1               -               -               -               -               -               -               -               -               -               
+CMS_htt_mistag_b_2017                 shape   -               0.71            0.71            0.71            -               0.71            0.71            0.71            0.71            0.71            
+CMS_htt_tjXsec                        lnN     -               -               1.06            -               -               -               -               -               -               -               
+CMS_htt_ttbarShape                    shape   -               -               0.71            -               -               -               -               -               -               -               
+CMS_htt_vvXsec                        lnN     -               -               -               1.05            -               -               -               -               -               -               
+CMS_htt_zjXsec                        lnN     -               1.02            -               -               -               -               -               -               -               -               
+CMS_prefiring                         shape   -               1               1               1               -               1               1               1               1               1               
+CMS_res_j_2017                        shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_Absolute                  shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_Absolute_2017             shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_BBEC1                     shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_BBEC1_2017                shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_EC2                       shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_EC2_2017                  shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_FlavorQCD                 shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_HF                        shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_HF_2017                   shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_RelativeBal               shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_j_RelativeSample_2017       shape   -               1               1               1               -               1               1               1               1               1               
+CMS_scale_met_unclustered             shape   -               1               1               1               -               -               -               -               -               -               
+CMS_scale_t_1prong1pizero_2017        shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_scale_t_1prong_2017               shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_scale_t_3prong1pizero_2017        shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_scale_t_3prong_2017               shape   0.5             -               1               1               -               1               1               1               1               1               
+CMS_scale_t_emb_1prong1pizero_2017    shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_scale_t_emb_1prong_2017           shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_scale_t_emb_3prong1pizero_2017    shape   0.866           -               -               -               -               -               -               -               -               -               
+CMS_scale_t_emb_3prong_2017           shape   0.866           -               -               -               -               -               -               -               -               -               
+MG_scale_norm                         shape   -               -               -               -               -               -               -               -               -               1               
+PDF_scale                             shape   -               -               -               -               -               -               -               -               -               1               
+QCDScale_VH                           lnN     -               -               -               -               -               -               1.01            -               -               -               
+QCDScale_ggH                          lnN     -               -               -               -               -               -               -               1.039           -               -               
+QCDScale_qqH                          lnN     -               -               -               -               -               -               -               -               1.005           -               
+QCDScale_ttH                          lnN     -               -               -               -               -               1.08            -               -               -               -               
+lumi_13TeV_2017                       lnN     -               1.02            1.02            1.02            -               1.02            1.02            1.02            1.02            1.02            
+lumi_13TeV_BBD                        lnN     -               1.004           1.004           1.004           -               1.004           1.004           1.004           1.004           1.004           
+lumi_13TeV_BCC                        lnN     -               1.003           1.003           1.003           -               1.003           1.003           1.003           1.003           1.003           
+lumi_13TeV_DB                         lnN     -               1.005           1.005           1.005           -               1.005           1.005           1.005           1.005           1.005           
+lumi_13TeV_GS                         lnN     -               1.001           1.001           1.001           -               1.001           1.001           1.001           1.001           1.001           
+lumi_13TeV_LS                         lnN     -               1.003           1.003           1.003           -               1.003           1.003           1.003           1.003           1.003           
+lumi_13TeV_XY                         lnN     -               1.008           1.008           1.008           -               1.008           1.008           1.008           1.008           1.008           
+pdf_Higgs_VH                          lnN     -               -               -               -               -               -               1.018           -               -               -               
+pdf_Higgs_gg                          lnN     -               -               -               -               -               -               -               1.032           -               -               
+pdf_Higgs_qqbar                       lnN     -               -               -               -               -               -               -               -               1.021           -               
+pdf_Higgs_ttH                         lnN     -               -               -               -               -               1.036           -               -               -               -               
+htt_tt_4_2017 autoMCStats 0 0 1
