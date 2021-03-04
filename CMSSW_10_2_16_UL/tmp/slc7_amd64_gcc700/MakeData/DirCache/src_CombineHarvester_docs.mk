@@ -1,2 +1,0 @@
-ALL_PACKAGES += CombineHarvester/docs
-subdirs_src_CombineHarvester_docs := src_CombineHarvester_docs_doxypypy src_CombineHarvester_docs_figures
