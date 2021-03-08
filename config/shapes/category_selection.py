@@ -213,14 +213,14 @@ discr_str = ("(0.5"
 fine_binning = [0.0, 0.3, 0.4, 0.45, 0.5, 0.55,  0.6, 0.65, 0.7,
                 0.75, 0.8, 0.85, 0.9, 0.92, 0.94, 0.96, 0.98, 1.]
 fine_binning=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
-# et_hist = Histogram("et_max_score", "et_max_score", fine_binning)
-# mt_hist = Histogram("mt_max_score", "mt_max_score", fine_binning)
-# tt_hist = Histogram("tt_max_score", "tt_max_score", fine_binning)
-# em_hist = Histogram("em_max_score", "em_max_score", fine_binning)
-et_hist = Histogram("et_summed_score", "et_summed_score", fine_binning)
-mt_hist = Histogram("mt_summed_score", "mt_summed_score", fine_binning)
-tt_hist = Histogram("tt_summed_score", "tt_summed_score", fine_binning)
-em_hist = Histogram("em_summed_score", "em_summed_score", fine_binning)
+et_hist = Histogram("et_max_score", "et_max_score", fine_binning)
+mt_hist = Histogram("mt_max_score", "mt_max_score", fine_binning)
+tt_hist = Histogram("tt_max_score", "tt_max_score", fine_binning)
+em_hist = Histogram("em_max_score", "em_max_score", fine_binning)
+# et_hist = Histogram("et_summed_score", "et_summed_score", fine_binning)
+# mt_hist = Histogram("mt_summed_score", "mt_summed_score", fine_binning)
+# tt_hist = Histogram("tt_summed_score", "tt_summed_score", fine_binning)
+# em_hist = Histogram("em_summed_score", "em_summed_score", fine_binning)
 
 # nn_categorization = {
 #         "et": [
