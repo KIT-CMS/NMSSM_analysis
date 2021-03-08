@@ -75,7 +75,7 @@ def prepare_multigraph_jobs(graph_inds, group_size):
 
 def main(args):
     with open(args.graph_file, "rb") as f:
-        graphs = pickle.load(f)
+        graphs = pickle.load(f)    
     workdir = os.getcwd()
     num_singles, num_multi = split_multicore_jobs(graphs)
     if args.pack_multiple_pipelines is None:

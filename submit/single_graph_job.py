@@ -37,6 +37,7 @@ def main(args):
 
     with open(args.input, "rb") as f:
         graphs = pickle.load(f)
+        print(graphs)
         if "-" in args.graph_number:
             graph_ind = list(map(int, args.graph_number.split("-")))
             graph_to_process = graphs[graph_ind[0]:graph_ind[1]+1]

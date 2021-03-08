@@ -20,22 +20,22 @@ ARTUS_OUTPUTS_2016="/ceph/jbechtel/nmssm/ntuples/2016/${CHANNEL}/"
 SVFit_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/SVFit/"
 FF_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/HHKinFit/"
-NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-#NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/parametrized_nn_mH1000/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/pNN_interpol_signaltrue_mH1000/NNScore_interpol_signaltrue_parametrized_nn_workdir/NNScore_interpol_signaltrue_parametrized_nn_collected/"
 # Samples Run2017
 ARTUS_OUTPUTS_2017="/ceph/jbechtel/nmssm/ntuples/2017/${CHANNEL}/"
 SVFit_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/SVFit/"
 FF_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/HHKinFit/"
-NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-#NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/parametrized_nn_mH1000/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/pNN_interpol_signaltrue_mH1000/NNScore_interpol_signaltrue_parametrized_nn_workdir/NNScore_interpol_signaltrue_parametrized_nn_collected/"
 # Samples Run2018
 ARTUS_OUTPUTS_2018="/ceph/jbechtel/nmssm/ntuples/2018/${CHANNEL}/"
 SVFit_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/SVFit/"
 FF_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/HHKinFit/"
-NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-#NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/parametrized_nn_mH1000/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/pNN_interpol_signaltrue_mH1000/NNScore_interpol_signaltrue_parametrized_nn_workdir/NNScore_interpol_signaltrue_parametrized_nn_collected/"
 
 # ERA handling
 if [[ $ERA == *"2016"* ]]
