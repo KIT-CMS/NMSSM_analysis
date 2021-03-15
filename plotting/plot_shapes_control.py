@@ -62,6 +62,15 @@ def parse_arguments():
         type=str,
         default=None,
         help="Draw variation of jetFakes or QCD in derivation region.")
+    parser.add_argument(
+        "--blinded",
+        action="store_true",
+        help="if true, no data is plottet")
+    parser.add_argument(
+        "--tag",
+        type=str,
+        default=None,
+        help="plots are stored in plots/tag/")
 
     return parser.parse_args()
 
@@ -226,12 +235,19 @@ def main(info):
     plot.add_hist(rootfile.get(channel, "data", args.category_postfix,shape_type=stype), "data_obs")
     data_norm = plot.subplot(0).get_hist("data_obs").Integral()
     plot.subplot(0).get_hist("data_obs").GetXaxis().SetMaxDigits(4)
-    plot.subplot(0).setGraphStyle("data_obs", "e0")
-    plot.subplot(0).setGraphStyle("data_obs", "e0")
+    if args.blinded:
+        plot.subplot(0).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
+        plot.subplot(0).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
+    else:
+        plot.subplot(0).setGraphStyle("data_obs", "e0")
+        plot.subplot(0).setGraphStyle("data_obs", "e0")
     if args.linear:
         pass
     else:
-        plot.subplot(1).setGraphStyle("data_obs", "e0")
+        if args.blinded:
+            plot.subplot(1).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
+        else:
+            plot.subplot(1).setGraphStyle("data_obs", "e0")
     
     NMSSM_rfile_dict={}
     NMSSM_bkg_dict={}
@@ -288,6 +304,8 @@ def main(info):
                         "hist", linecolor=0)
         plot.subplot(2).normalize([
                         "total_bkg", "data_obs"] + NMSSM_bkg_dict.keys()+NMSSM_top_bkg, "total_bkg")
+        if args.blinded:
+            plot.subplot(2).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
     else:
         plot.subplot(2).normalize(["total_bkg", "data_obs"], "total_bkg")
 
@@ -408,7 +426,6 @@ def main(info):
     plot.legend(2).Draw()
     plot.legend(3).setAlpha(0.0)
     plot.legend(3).Draw()
-    
     #draw scale text
     signal_cs=NMSSM_scale*0.1
     plot.DrawText(0.16, 0.8, "\sigma_{\mathrm{signal}}=%s\,\mathrm{pb}" %signal_cs,textsize=0.024)
@@ -428,7 +445,6 @@ def main(info):
     plot.DrawChannelCategoryLabel(
         "%s, %s" % (channel_dict[channel], "{cat}".format(cat=args.category_postfix)),
         begin_left=posChannelCategoryLabelLeft)
-
     # save plot
     if not args.embedding and not args.fake_factor:
         postfix = "fully_classic"
@@ -441,13 +457,15 @@ def main(info):
     if args.draw_jet_fake_variation is not None:
         postfix = postfix + "_" + args.draw_jet_fake_variation
 
-    if not os.path.exists("plots/%s_plots_%s"%(args.era,postfix)):
-        os.mkdir("plots/%s_plots_%s"%(args.era,postfix))
-    if not os.path.exists("plots/%s_plots_%s/%s"%(args.era,postfix,channel)):
-        os.mkdir("plots/%s_plots_%s/%s"%(args.era,postfix,channel))
+    if not os.path.exists("plots/%s"%(args.tag)):
+        os.mkdir("plots/%s"%(args.tag))
+    if not os.path.exists("plots/%s/%s_plots_%s"%(args.tag,args.era,postfix)):
+        os.mkdir("plots/%s/%s_plots_%s"%(args.tag,args.era,postfix))
+    if not os.path.exists("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel)):
+        os.mkdir("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel))
     print "Trying to save the created plot"
-    plot.save("plots/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
-    plot.save("plots/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
 
 
 if __name__ == "__main__":
@@ -465,12 +483,7 @@ if __name__ == "__main__":
         postfix = "classic_ff"
     if args.embedding and args.fake_factor:
         postfix = "emb_ff"
-
-    if not os.path.exists("%s_plots_%s"%(args.era,postfix)):
-        os.mkdir("%s_plots_%s"%(args.era,postfix))
     for ch in channels:
-        if not os.path.exists("%s_plots_%s/%s"%(args.era,postfix,ch)):
-            os.mkdir("%s_plots_%s/%s"%(args.era,postfix,ch))
         for v in variables:
             infolist.append({"args" : args, "channel" : ch, "variable" : v})
     pool = Pool(1)
