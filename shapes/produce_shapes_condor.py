@@ -176,18 +176,7 @@ def parse_arguments():
         type=str,
         help="tag"
     )
-    # parser.add_argument(
-    #     "--heavy_mass",
-    #     required=True,
-    #     type=str,
-    #     help="Heavy mass NMSSM Higgs Boson."
-    # )
-    # parser.add_argument(
-    #     "--light_mass",
-    #     required=True,
-    #     type=str,
-    #     help="light mass NMSSM Higgs Boson."
-    # )
+
     return parser.parse_args()
 
 #load NMSSM mass_dict
@@ -201,7 +190,7 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/parametrized_nn_interpol_mH1000/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
+    classdict="/work/rschmieder/nmssm_analysis/sm-htt-analysis/output/ml/68_onenet/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
     from config.shapes.category_selection import nmssm_cat
     categorization=nmssm_cat(args.channels[0], classdict)
 
@@ -453,7 +442,7 @@ def main(args):
                  "ggh", "qqh","vh","tth"} \
                 | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
     elif "nmssm" in args.process_selection:
-        procS = set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
+        procS = (args.process_selection | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)) - {"nmssm"}
     else:
         procS = args.process_selection
 
