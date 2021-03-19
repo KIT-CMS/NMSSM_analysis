@@ -29,12 +29,12 @@ parser.add_argument(
         type=str,
         help="all, or specific outputclass"
 )
-parser.add_argument(       
-        "--top",
-        required=True,
-        type=str,
-        help="number of variables to be plottet"
-)
+parser.add_argument(
+        "--sorted",
+        required=False,
+        type=int,
+        help="if true,plots the top 6 variables, if false you need to specify the variables you want to highlight"
+    )
 args = parser.parse_args()
 
 if args.era == "all_eras":
@@ -154,8 +154,8 @@ for key in vars_dict:
 area_dict={}
 areas=np.zeros(len(vars))
 i=0
-for key in vars_dict:
-    n,bins,patches=plt.hist(vars_dict[key],bins=ranks, cumulative=True,histtype="step")
+for key in vars_dict.keys():
+    n,bins,patches=plt.hist(vars_dict[key],bins=range(0,324), cumulative=True,histtype="step")
     area = sum(np.diff(bins)*n)
     area_dict[key]=area
     areas[i]=area
@@ -165,24 +165,49 @@ for key in vars_dict:
 sort_areas=np.sort(areas)[::-1]
 fig = plt.figure()
 ax = plt.subplot(111)
-for area in sort_areas[:int(args.top)]:
+if args.sorted:
+    top_vars=[]
+    for area in sort_areas[:args.sorted]:
+        for key in vars_dict:
+            if (round(area_dict[key],3) == round(area,3)):
+                top_vars.append(key)
     for key in vars_dict:
-        if (round(area_dict[key],1) == round(area,1)):
+        if key not in top_vars:
             vars_dict[key].append(ranks+1)
-            cnt, edges = np.histogram(vars_dict[key], bins=ranks+1)
-            ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area/norm,2)))
-
-vars_dict["NMSSM_light_mass"].append(ranks+1)
-cnt, edges = np.histogram(vars_dict["NMSSM_light_mass"], bins=ranks+1)
-ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label="NMSSM_light_mass({area})".format(area=round(area_dict["NMSSM_light_mass"]/norm,2)))
+            vars_dict[key].append(-1)
+            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",color="lightgrey")  
+    for key in top_vars:
+        vars_dict[key].append(ranks+1)
+        vars_dict[key].append(-1)
+        cnt, edges = np.histogram(vars_dict[key], bins=ranks+1)
+        ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area/norm,2)))
+else:
+    int_vars=["NMSSM_light_mass","kinfit_chi2","m_sv_puppi", "kinfit_mh2", "kinfit_mH","m_vis","pt_1"]
+    int_col=["b","g","r","c","m","y","k"]
+    i=0
+    for key in vars:
+        if key not in int_vars:
+            vars_dict[key].append(ranks+1)
+            vars_dict[key].append(-1)
+            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",color="lightgrey")        
+    for key in vars:
+        if key in int_vars:      
+            vars_dict[key].append(ranks+1)
+            vars_dict[key].append(-1)
+            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",label=key+"({area})".format(area=round(area_dict[key]/norm,2)),color=int_col[i])
+            i+=1
+ 
 lgd=ax.legend(bbox_to_anchor=(1, 1))
-plt.ylabel("cumulative count")
-plt.xlabel("Taylor rank")
+plt.ylabel(r"cumulative count")
+plt.xlabel(r"Taylor rank")
 plt.title(args.channel+" "+args.era+" "+args.tag+" "+args.node)
 #plt.show()
 plt.tight_layout()
 plt.savefig("plots/{tag}/cumulative_taylorranking_{era}_{channel}_{node}.png".format(tag=args.tag,era=args.era,channel=args.channel,node=args.node))
-
+plt.savefig("plots/{tag}/cumulative_taylorranking_{era}_{channel}_{node}.pdf".format(tag=args.tag,era=args.era,channel=args.channel,node=args.node))
 
 
 
