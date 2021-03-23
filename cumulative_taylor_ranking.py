@@ -33,7 +33,7 @@ parser.add_argument(
         "--sorted",
         required=False,
         type=int,
-        help="if true,plots the top 6 variables, if false you need to specify the variables you want to highlight"
+        help="--sorted num, plots the top num variables, if false you need to specify the variables you want to highlight in int_vars"
     )
 args = parser.parse_args()
 
@@ -169,37 +169,33 @@ if args.sorted:
     top_vars=[]
     for area in sort_areas[:args.sorted]:
         for key in vars_dict:
-            if (round(area_dict[key],3) == round(area,3)):
+            if (round(area_dict[key],5) == round(area,5)):
                 top_vars.append(key)
     for key in vars_dict:
         if key not in top_vars:
             vars_dict[key].append(ranks+1)
-            vars_dict[key].append(-1)
-            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
-            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",color="lightgrey")  
+            cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",color="lightgrey")  
     for key in top_vars:
         vars_dict[key].append(ranks+1)
-        vars_dict[key].append(-1)
-        cnt, edges = np.histogram(vars_dict[key], bins=ranks+1)
-        ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area/norm,2)))
+        cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
+        ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area_dict[key]/norm,2)))
 else:
     int_vars=["NMSSM_light_mass","kinfit_chi2","m_sv_puppi", "kinfit_mh2", "kinfit_mH","m_vis","pt_1"]
-    int_col=["b","g","r","c","m","y","k"]
+    int_col=["b","g","r","c","m","y","k","darkorange","gold","limegreen","springgreen","royalblue","slategrey","darkviolet"]
     i=0
     for key in vars:
         if key not in int_vars:
             vars_dict[key].append(ranks+1)
-            vars_dict[key].append(-1)
-            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
-            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",color="lightgrey")        
+            cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",color="lightgrey")        
     for key in vars:
         if key in int_vars:      
             vars_dict[key].append(ranks+1)
-            vars_dict[key].append(-1)
-            cnt, edges = np.histogram(vars_dict[key], bins=range(ranks+1))
-            ax.step(edges[:-2], cnt[:-1].cumsum(),where="mid",label=key+"({area})".format(area=round(area_dict[key]/norm,2)),color=int_col[i])
+            cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
+            ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area_dict[key]/norm,2)),color=int_col[i])
             i+=1
- 
+
 lgd=ax.legend(bbox_to_anchor=(1, 1))
 plt.ylabel(r"cumulative count")
 plt.xlabel(r"Taylor rank")
