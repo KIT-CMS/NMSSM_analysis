@@ -355,6 +355,9 @@ common_files_2018 = {
 files = {
     "2016": {
         "et": dict({
+            "pseudodata": [
+                "pseudodata_2016_et_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "SingleElectron_Run2016B_17Jul2018ver2v1_13TeV_MINIAOD",
                 "SingleElectron_Run2016C_17Jul2018v1_13TeV_MINIAOD",
@@ -377,6 +380,9 @@ files = {
             **common_files_2016
             ),
         "mt": dict({
+            "pseudodata": [
+                "pseudodata_2016_mt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "SingleMuon_Run2016B_17Jul2018ver2v1_13TeV_MINIAOD",
                 "SingleMuon_Run2016C_17Jul2018v1_13TeV_MINIAOD",
@@ -399,6 +405,9 @@ files = {
             **common_files_2016
             ),
         "tt": dict({
+            "pseudodata": [
+                "pseudodata_2016_tt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "Tau_Run2016B_17Jul2018ver2v1_13TeV_MINIAOD",
                 "Tau_Run2016C_17Jul2018v1_13TeV_MINIAOD",
@@ -446,6 +455,9 @@ files = {
     },
     "2017": {
         "et": dict({
+            "pseudodata": [
+                "pseudodata_2017_et_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "SingleElectron_Run2017B_31Mar2018v1_13TeV_MINIAOD",
                 "SingleElectron_Run2017C_31Mar2018v1_13TeV_MINIAOD",
@@ -464,6 +476,9 @@ files = {
             **common_files_2017
             ),
         "mt": dict({
+            "pseudodata": [
+                "pseudodata_2017_mt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "SingleMuon_Run2017B_31Mar2018v1_13TeV_MINIAOD",
                 "SingleMuon_Run2017C_31Mar2018v1_13TeV_MINIAOD",
@@ -482,6 +497,9 @@ files = {
             **common_files_2017
             ),
         "tt": dict({
+            "pseudodata": [
+                "pseudodata_2017_tt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "Tau_Run2017B_31Mar2018v1_13TeV_MINIAOD",
                 "Tau_Run2017C_31Mar2018v1_13TeV_MINIAOD",
@@ -520,6 +538,9 @@ files = {
     },
     "2018": {
         "et": dict({
+            "pseudodata": [
+                "pseudodata_2018_et_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "EGamma_Run2018A_17Sep2018v2_13TeV_MINIAOD",
                 "EGamma_Run2018B_17Sep2018v1_13TeV_MINIAOD",
@@ -537,6 +558,9 @@ files = {
             ),
 
         "mt": dict({
+            "pseudodata": [
+                "pseudodata_2018_mt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "SingleMuon_Run2018A_17Sep2018v2_13TeV_MINIAOD",
                 "SingleMuon_Run2018B_17Sep2018v1_13TeV_MINIAOD",
@@ -554,6 +578,9 @@ files = {
             ),
 
         "tt": dict({
+            "pseudodata": [
+                "pseudodata_2018_tt_0_1pb_mH1000_mL300"
+            ],
             "data": [
                 "Tau_Run2018A_17Sep2018v1_13TeV_MINIAOD",
                 "Tau_Run2018B_17Sep2018v1_13TeV_MINIAOD",

@@ -115,6 +115,7 @@ def replace_negative_entries_and_renormalize(histogram, tolerance):
 
 
 def fake_factor_estimation(rootfile, channel, selection, variable, variation="Nominal", is_embedding=True):
+    
     if is_embedding:
         procs_to_subtract = ["EMB", "ZL", "TTL", "VVL"]
     else:
@@ -126,6 +127,7 @@ def fake_factor_estimation(rootfile, channel, selection, variable, variation="No
                                                 selection="-" + selection if selection != "" else "",
                                                 variation=variation,
                                                 variable=variable)))
+        
     base_hist = rootfile.Get(_name_string.format(
                                 dataset="data",
                                 channel=channel,
@@ -306,6 +308,14 @@ def abcd_estimation(rootfile, channel, selection, variable,
                                 variation=variation,
                                 variable=variable
         ))
+    print(_name_string.format(
+                                dataset="data",
+                                channel=channel,
+                                process="",
+                                selection="-" + selection if selection != "" else "",
+                                variation=variation,
+                                variable=variable
+        ))    
     bin_zero=data_d.GetBinContent(0)
     bin_one=data_d.GetBinContent(1)
     data_d.SetBinContent(1,bin_zero+bin_one)
@@ -410,14 +420,17 @@ def main(args):
     for key in input_file.GetListOfKeys():
         logger.debug("Processing histogram %s",key.GetName())
         dataset, selection, variation, variable = key.GetName().split("#")
+        if "pseudodata" in key.GetName():
+            continue
         #if variable not in ["bcsv_2","bpt_bReg_2","bm_bReg_2"]:
         if "anti_iso" in variation or "same_sign" in variation:
+            
             sel_split = selection.split("-", maxsplit=1)
             # Set category to default since not present in control plots.
             category = ""
             # Treat data hists seperately because only channel selection is applied to data.
             if "data" in dataset:
-                channel = sel_split[0]
+                channel = sel_split[0]                
                 # Set category label for analysis categories.
                 if len(sel_split) > 1:
                     category = sel_split[1]

@@ -1,14 +1,14 @@
-ulimit -s unlimited
- 
-for era in 2016 2017 2018 
+
+for era in 2016 2017 2018
 do
-    for ch in  tt et mt 
-    do
-        # rm output/uncert_shapes/${era}-${ch}-control-shapes/shapes-analysis-${era}-${ch}_all_nmssm.root
-        # rm output/uncert_shapes/correct_classdict_shapes/${era}-${ch}-analysis-shapes.root
-        # hadd output/uncert_shapes/correct_classdict_shapes/${era}-${ch}-analysis-shapes.root output/shapes/analysis_unit_graphs-${era}-${ch}-backgrounds/* output/shapes/analysis_unit_graphs-${era}-${ch}-sm_signals/* output/shapes/analysis_unit_graphs-${era}-${ch}-nmssm_split1/* output/shapes/analysis_unit_graphs-${era}-${ch}-nmssm_split2/* output/shapes/analysis_unit_graphs-${era}-${ch}-nmssm_split3/* output/shapes/analysis_unit_graphs-${era}-${ch}-nmssm_split4/* output/shapes/analysis_unit_graphs-${era}-${ch}-nmssm_split5/*
-        #hadd output/synced_shapes/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_500_3.root output/synced_shapes/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_500_3*
-        #python shapes/convert_to_synced_shapes.py --era ${era} --input output/uncert_shapes/${era}-${ch}-control-shapes/shapes-analysis-${era}-${ch}_all_nmssm.root --output output/synced_shapes/
-        hadd output/uncert_shapes/correct_classdict_shapes/synced_shapes/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_500_3.root output/uncert_shapes/correct_classdict_shapes/synced_shapes/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_500_3*
-    done
-done
+    for ch in et mt tt
+    do        
+        for lm in 60 70 75 80 85 90 95 100 110 120 130 150 170 190 250 300 350 400 450 500 550 600 650 700 750 800 850
+        do
+            # cp -r output/pNN_balanced_lm_mH1000_data/uncert_shapes/${lm}/${era}-${ch}.root output/pNN_balanced_lm_mH1000_pseudodata_shapebasis/uncert_shapes/${lm}/${era}-${ch}.root
+            # python shapes/convert_to_synced_shapes_org.py --era ${era} --input output/pNN_balanced_lm_mH1000_pseudodata_shapebasis/uncert_shapes/${lm}/${era}-${ch}.root --output output/pNN_balanced_lm_mH1000_pseudodata_shapebasis/uncert_shapes/${lm}/ -n 12
+            hadd output/pNN_balanced_lm_mH1000_pseudodata_shapebasis/uncert_shapes/${lm}/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_1000_0.root output/pNN_balanced_lm_mH1000_pseudodata_shapebasis/uncert_shapes/${lm}/htt_${ch}.inputs-nmssm-${era}-${ch}_max_score_1000_0*
+        done
+    done 
+done 
+#python add_hists_pseudodata.py

@@ -181,7 +181,7 @@ if args.sorted:
         cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
         ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area_dict[key]/norm,2)))
 else:
-    int_vars=["NMSSM_light_mass","kinfit_chi2","m_sv_puppi", "kinfit_mh2", "kinfit_mH","m_vis","pt_1"]
+    int_vars=["NMSSM_light_mass","kinfit_chi2","m_sv_puppi", "kinfit_mh2", "kinfit_mH","m_vis","pt_1","pt_2"]
     int_col=["b","g","r","c","m","y","k","darkorange","gold","limegreen","springgreen","royalblue","slategrey","darkviolet"]
     i=0
     for key in vars:
@@ -202,6 +202,7 @@ plt.xlabel(r"Taylor rank")
 plt.title(args.channel+" "+args.era+" "+args.tag+" "+args.node)
 #plt.show()
 plt.tight_layout()
+print(args.tag,args.era,args.channel,args.node)
 plt.savefig("plots/{tag}/cumulative_taylorranking_{era}_{channel}_{node}.png".format(tag=args.tag,era=args.era,channel=args.channel,node=args.node))
 plt.savefig("plots/{tag}/cumulative_taylorranking_{era}_{channel}_{node}.pdf".format(tag=args.tag,era=args.era,channel=args.channel,node=args.node))
 

@@ -305,6 +305,11 @@ def dy_stitching_weight(era):
     return weight
 
 
+def pseudodata_selection(channel, era):
+    weights = [("training_weight", "training_weight")]
+    return Selection(name = "pseudodata",
+                        weights = weights)
+                        
 def DY_process_selection(channel, era):
     DY_process_weights = MC_base_process_selection(channel, era).weights
     DY_process_weights.extend([
@@ -453,6 +458,7 @@ List of other processes meant to be put on top of base processes:
 #         "((genbosonmass >= 50.0)*6.2139e-05*((npartons == 0 || npartons >= 5)*1.0 + (npartons == 1)*0.1743 + (npartons == 2)*0.3556 + (npartons == 3)*0.2273 + (npartons == 4)*0.2104) + (genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)","z_stitching_weight"))
 #     return Selection(name = "DY",
 #                      weights = DY_process_weights)
+
 
 
 def DY_nlo_process_selection(channel, era):

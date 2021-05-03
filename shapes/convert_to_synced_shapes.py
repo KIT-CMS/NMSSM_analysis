@@ -60,11 +60,19 @@ def setup_logging(output_file, level=logging.INFO):
 def write_hists_per_category(cat_hists : tuple):
     category, keys, channel, ofname, ifname = cat_hists
     infile = ROOT.TFile(ifname, "READ")
-    outfile = ROOT.TFile(ofname.replace(".root", category + ".root"), "RECREATE")
-    outfile.cd()
+
+    if not os.path.exists(ofname):
+        outfile = ROOT.TFile(ofname,"RECREATE")
+        outfile.cd()
+        # for cat in ["emb","tt","ff","misc","NMSSM"]:
+        for cat in ['NMSSM_MH1000_2', 'NMSSM_MH1000_3', 'NMSSM_MH1000_1', 'NMSSM_MH1000_6', 'NMSSM_MH1000_7', 'NMSSM_MH1000_4', 'NMSSM_MH1000_5', 'NMSSM_MH800_1', 'misc', 'NMSSM_MH240_2', 'NMSSM_MH280_1', 'NMSSM_MH280_2', 'NMSSM_MH280_3', 'NMSSM_MH450_1', 'NMSSM_MH450_3', 'NMSSM_MH450_2', 'NMSSM_MH700_5', 'NMSSM_MH700_4', 'NMSSM_MH700_6', 'NMSSM_MH700_1', 'NMSSM_MH500_5', 'NMSSM_MH700_2', 'NMSSM_MHgt1000_5', 'NMSSM_MH400_2', 'NMSSM_MHgt1000_1', 'NMSSM_MHgt1000_3', 'NMSSM_MH400_3', 'NMSSM_MH600_4', 'NMSSM_MH600_5', 'tt', 'NMSSM_MH600_1', 'NMSSM_MH600_2', 'NMSSM_MH600_3', 'NMSSM_MH360_3', 'NMSSM_MH360_2', 'NMSSM_MH360_1', 'NMSSM_MH400_1', 'NMSSM_MH700_3', 'NMSSM_MH400_4', 'NMSSM_MH360_4', 'NMSSM_MH550_1', 'NMSSM_MH550_2', 'NMSSM_MH550_3', 'NMSSM_MH550_4', 'NMSSM_MH550_5', 'NMSSM_MH800_6', 'NMSSM_MHgt1000_4', 'NMSSM_MH800_4', 'NMSSM_MHgt1000_2', 'NMSSM_MH800_5', 'NMSSM_MH240_1', 'ff', 'NMSSM_MH240_3', 'NMSSM_MH800_2', 'NMSSM_MH800_3', 'NMSSM_MH500_3', 'NMSSM_MH500_2', 'NMSSM_MH500_1', 'NMSSM_MH320_4', 'NMSSM_MH320_3', 'NMSSM_MH320_2', 'NMSSM_MH320_1', 'emb', 'NMSSM_MH500_4', 'NMSSM_MH450_4', 'NMSSM_MH900_6', 'NMSSM_MH900_5', 'NMSSM_MH900_4', 'NMSSM_MH900_3', 'NMSSM_MH900_2', 'NMSSM_MH900_1', 'NMSSM_MH900_7']:
+            outfile.mkdir(channel+"_"+cat)
+    else:
+        outfile = ROOT.TFile(ofname,"UPDATE")
+        outfile.cd()
     dir_name = "{CHANNEL}_{CATEGORY}".format(
             CHANNEL=channel, CATEGORY=category)
-    outfile.mkdir(dir_name)
+    #outfile.mkdir(dir_name)
     outfile.cd(dir_name)
     name_ttt_nominal_input = ""
     name_emb_nominal_input = ""
@@ -189,14 +197,14 @@ def main(args):
         logging.info("Writing histograms to file %s with %s processes",
                      os.path.join(
                             args.output,
-                            "{ERA}-{CHANNELS}-synced-NMSSM.root".format(
+                            "htt_{CHANNELS}.inputs-nmssm-{ERA}-{CHANNELS}_max_score_1000_0.root".format(
                                                                     CHANNELS=channel,
                                                                     ERA=args.era)),
                      args.num_processes)
         if not os.path.exists(args.output):
             os.mkdir(args.output)
         ofname = os.path.join(args.output,
-                              "{ERA}-{CHANNELS}-synced-NMSSM.root".format(
+                              "htt_{CHANNELS}.inputs-nmssm-{ERA}-{CHANNELS}_max_score_1000_0.root".format(
                                   CHANNELS=channel,
                                   ERA=args.era))
         with multiprocessing.Pool(args.num_processes) as pool:

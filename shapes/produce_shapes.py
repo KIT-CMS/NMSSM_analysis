@@ -178,7 +178,7 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/parametrized_nn_interpol_mH1000/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
+    classdict="/work/rschmieder/nmssm_analysis/sm-htt-analysis/output/ml/68_onenet/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
     from config.shapes.category_selection import nmssm_cat
     categorization=nmssm_cat(args.channels[0], classdict)
     #Parse given arguments.

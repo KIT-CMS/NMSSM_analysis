@@ -2539,45 +2539,75 @@ fi
 
 # source utils/setup_cmssw.sh
 
-if [ "$TRAINING_MASS" -ne 1200 ]; then
-if [ "$TRAINING_MASS" -ne "$MASS" ]; then
-touch dummy.json
-exit 0
-fi
-else
-if [ "$MASS" -lt 1200 ]; then
-touch dummy.json
-exit 0
-fi
-fi
+#if [ "$TRAINING_MASS" -ne 1200 ]; then
+# if [ "$TRAINING_MASS" -ne "$MASS" ]; then
+# touch dummy.json
+# exit 0
+# fi
+# else
+# if [ "$MASS" -lt 1200 ]; then
+# touch dummy.json
+# exit 0
+# fi
+# fi
 
 for ERA in ${ERAS[@]}; do
     if [ "$CHANNEL" == "all" ]
         then
-            MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel="mt et tt" --heavy_mass=${MASS}  --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/output/${TAG}/uncert_shapes/synced_shapes/
+            MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel="mt et tt" --heavy_mass=${MASS}  --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/output/${TAG}/uncert_shapes/${MASS_H2}/
         else
-            MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel=${CHANNEL} --heavy_mass=${MASS} --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/output/${TAG}/uncert_shapes/synced_shapes/
+            MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel=${CHANNEL} --heavy_mass=${MASS} --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/output/${TAG}/uncert_shapes/${MASS_H2}/
     fi
 done
 
-TARGET=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb
+TARGET=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb
 ## remove old files
 ls $TARGET && rm -r $TARGET
 [ ! -d $TARGET ] && mkdir -p $TARGET 
 [ ! -d $TARGET/common ] && mkdir $TARGET/common
 for ERA in ${ERAS[@]}; do
     echo "Copying datasets for "$ERA
-    DATACARDDIR=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_${ERA}_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/${ERA}/cmb
+    DATACARDDIR=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_${ERA}_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/${ERA}/cmb
     cp ${DATACARDDIR}/htt_*_${ERA}.txt $TARGET/.
     cp ${DATACARDDIR}/common/htt_input_${ERA}.root $TARGET/common/.
     ls $TARGET
 done
 
 
-combineTool.py -M T2W -o "ws.root"  --PO '"map=^.*/NMSSM_'${MASS}'_125_'${MASS_H2}'$:r_NMSSM_'${MASS}'_125_'${MASS_H2}'[0,-10,10]"' -i /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ -m ${MASS_H2} --parallel 1 -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel
+combineTool.py -M T2W -o "ws.root"  --PO '"map=^.*/NMSSM_'${MASS}'_125_'${MASS_H2}'$:r_NMSSM_'${MASS}'_125_'${MASS_H2}'[0,-10,10]"' -i /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ -m ${MASS_H2} --parallel 1 -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel
 
 
-combineTool.py -m $MASS_H2 -M AsymptoticLimits --rAbsAcc 0 --rRelAcc 0.0005 --redefineSignalPOIs r_NMSSM_${MASS}_125_${MASS_H2} -d /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root --there -n ".NMSSM_"${MASS}"_125_"  --task-name NMSSM_${MASS}_125_${MASS_H2} --parallel 1 --job-mode condor
+combineTool.py -m $MASS_H2 -M AsymptoticLimits --rAbsAcc 0 --rRelAcc 0.0005 --redefineSignalPOIs r_NMSSM_${MASS}_125_${MASS_H2} -d /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root --there -n ".NMSSM_"${MASS}"_125_"  --task-name NMSSM_${MASS}_125_${MASS_H2} --parallel 1 --job-mode condor
+
+###janeks shapes
+
+
+# for ERA in ${ERAS[@]}; do
+#     if [ "$CHANNEL" == "all" ]
+#         then
+#             MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel="mt et tt" --heavy_mass=${MASS}  --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/jbechtel/postprocessing/nmssm/train_all/CMSSW_10_2_16_UL/src/CombineHarvester/MSSMvsSMRun2Legacy/shapes/
+#         else
+#             MorphingMSSMvsSM --era=${ERA} --auto_rebin=1 --binomial_bbb=1 --analysis=nmssm --channel=${CHANNEL} --heavy_mass=${MASS} --light_mass=${MASS_H2} --output_folder="/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_"${ERA}"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH} --real_data=1 --training_mass=${TRAINING_MASS} --training_batch=${TRAINING_BATCH} --base_path=/work/jbechtel/postprocessing/nmssm/train_all/CMSSW_10_2_16_UL/src/CombineHarvester/MSSMvsSMRun2Legacy/shapes/
+#     fi
+# done
+
+# TARGET=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb
+# ## remove old files
+# ls $TARGET && rm -r $TARGET
+# [ ! -d $TARGET ] && mkdir -p $TARGET 
+# [ ! -d $TARGET/common ] && mkdir $TARGET/common
+# for ERA in ${ERAS[@]}; do
+#     echo "Copying datasets for "$ERA
+#     DATACARDDIR=/work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_${ERA}_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/${ERA}/cmb
+#     cp ${DATACARDDIR}/htt_*_${ERA}.txt $TARGET/.
+#     cp ${DATACARDDIR}/common/htt_input_${ERA}.root $TARGET/common/.
+#     ls $TARGET
+# done
+
+# combineTool.py -M T2W -o "ws.root"  --PO '"map=^.*/NMSSM_'${MASS}'_125_'${MASS_H2}'$:r_NMSSM_'${MASS}'_125_'${MASS_H2}'[0,-10,10]"' -i /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ -m ${MASS_H2} --parallel 1 -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel
+
+
+# combineTool.py -m $MASS_H2 -M AsymptoticLimits --rAbsAcc 0 --rRelAcc 0.0005 --redefineSignalPOIs r_NMSSM_${MASS}_125_${MASS_H2} -d /work/rschmieder/nmssm_newframework/nmssm_newframework_analysis/fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root --there -n ".NMSSM_"${MASS}"_125_"  --task-name NMSSM_${MASS}_125_${MASS_H2} --parallel 1 --job-mode condor
 
 
 

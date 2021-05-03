@@ -71,6 +71,11 @@ def parse_arguments():
         type=str,
         default=None,
         help="plots are stored in plots/tag/")
+    parser.add_argument(
+        "--light_mass",
+        type=int,
+        default=None,
+        help="considered light mass")
 
     return parser.parse_args()
 
@@ -91,9 +96,10 @@ def setup_logging(output_file, level=logging.DEBUG):
 def main(info):
 
     #add NMSSM masses to plot
-    mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
-
     args = info["args"]
+    mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
+    mass_dict["light_mass_fine"]=[args.light_mass]
+    
     variable = info["variable"]
     channel = info["channel"]
     channel_dict = {
@@ -266,7 +272,7 @@ def main(info):
         for i in plot_idx_to_add_signal:
             for nmssm_signals in NMSSM_rfile_dict:
                 if NMSSM_rfile_dict[nmssm_signals].Integral() > 0:
-                    NMSSM_scale = 10
+                    NMSSM_scale = 1
                 else:
                     NMSSM_scale = 0.0                        
                 if i in [0,1]: 
@@ -330,7 +336,7 @@ def main(info):
             1.0,
             1000 * plot.subplot(0).get_hist("data_obs").GetMaximum())
 
-    plot.subplot(2).setYlims(0.75, 1.45)
+    plot.subplot(2).setYlims(0.75, 1.55)
     if channel == "mm":
         plot.subplot(0).setLogY()
         plot.subplot(0).setYlims(1, 10**10)
@@ -463,7 +469,7 @@ def main(info):
         os.mkdir("plots/%s/%s_plots_%s"%(args.tag,args.era,postfix))
     if not os.path.exists("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel)):
         os.mkdir("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel))
-    print "Trying to save the created plot"
+    print("Trying to save the created plot")
     plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
     plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
 

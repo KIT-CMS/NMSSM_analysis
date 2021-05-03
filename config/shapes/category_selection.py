@@ -212,11 +212,13 @@ discr_str = ("(0.5"
 
 fine_binning = [0.0, 0.3, 0.4, 0.45, 0.5, 0.55,  0.6, 0.65, 0.7,
                 0.75, 0.8, 0.85, 0.9, 0.92, 0.94, 0.96, 0.98, 1.]
-fine_binning=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0]
-et_hist = Histogram("et_max_score", "et_max_score", fine_binning)
-mt_hist = Histogram("mt_max_score", "mt_max_score", fine_binning)
-tt_hist = Histogram("tt_max_score", "tt_max_score", fine_binning)
-em_hist = Histogram("em_max_score", "em_max_score", fine_binning)
+fine_binning=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 0.96, 0.97, 0.98, 0.99, 1.0]
+
+
+# et_hist = Histogram("et_max_score", "et_max_score", fine_binning)
+# mt_hist = Histogram("mt_max_score", "mt_max_score", fine_binning)
+# tt_hist = Histogram("tt_max_score", "tt_max_score", fine_binning)
+# em_hist = Histogram("em_max_score", "em_max_score", fine_binning)
 # et_hist = Histogram("et_summed_score", "et_summed_score", fine_binning)
 # mt_hist = Histogram("mt_summed_score", "mt_summed_score", fine_binning)
 # tt_hist = Histogram("tt_summed_score", "tt_summed_score", fine_binning)
@@ -365,7 +367,34 @@ em_hist = Histogram("em_max_score", "em_max_score", fine_binning)
 # }
 
 #classdict for NMSSM Index
-def nmssm_cat(channel,cdict):
+
+# def nmssm_cat(channel,cdict):
+#         def readclasses():
+#                 confFileName = "{clsdict}".format(clsdict=cdict)
+#                 #logger.debug("Parse classes from " + confFileName)
+#                 confdict = yaml.load(open(confFileName, "r"), Loader=yaml.Loader)
+#                 classdict = {}
+#                 for nnclass in set(confdict["classes"]):
+#                         classdict[nnclass] = confdict["classes"].index(nnclass)
+
+#                 return classdict
+#         def hist():
+#                 if channel=="et":
+#                         return Histogram("et_summed_score", "et_summed_score", fine_binning)
+#                 elif channel=="mt":
+#                         return Histogram("mt_summed_score", "mt_summed_score", fine_binning)
+#                 else:
+#                         return Histogram("tt_summed_score", "tt_summed_score", fine_binning)
+#         classdict=readclasses()
+#         nmssm_categorization={"{ch}".format(ch=channel) : []}
+#         catsL_=nmssm_categorization["{ch}".format(ch=channel)]
+#         for label in classdict.keys():        
+#                 catsL_.append(
+#                         (Selection(name="{lab}".format(lab=label),  cuts=[("{ch}_max_index=={index}".format(ch=channel, index=classdict[label]), "category_selection")]),   [hist()]))
+#         nmssm_categorization={"{ch}".format(ch=channel) : catsL_}
+
+#         return nmssm_categorization
+def nmssm_cat(channel,cdict,light_masses):
         def readclasses():
                 confFileName = "{clsdict}".format(clsdict=cdict)
                 #logger.debug("Parse classes from " + confFileName)
@@ -375,21 +404,34 @@ def nmssm_cat(channel,cdict):
                         classdict[nnclass] = confdict["classes"].index(nnclass)
 
                 return classdict
-        def hist():
+        def hist(light_mass):
                 if channel=="et":
-                        return et_hist
+                        return Histogram("et_max_score_{lm}".format(lm=light_mass), "et_max_score_{lm}".format(lm=light_mass), fine_binning)
                 elif channel=="mt":
-                        return mt_hist
+                        return Histogram("mt_max_score_{lm}".format(lm=light_mass), "mt_max_score_{lm}".format(lm=light_mass), fine_binning)
                 else:
-                        return tt_hist
+                        return Histogram("tt_max_score_{lm}".format(lm=light_mass), "tt_max_score_{lm}".format(lm=light_mass), fine_binning)
+        def hist_standard():
+                if channel=="et":
+                        return Histogram("et_max_score", "et_max_score", fine_binning)
+                elif channel=="mt":
+                        return Histogram("mt_max_score", "mt_max_score", fine_binning)
+                else:
+                        return Histogram("tt_max_score", "tt_max_score", fine_binning)
+        
         classdict=readclasses()
-        print(classdict)
         nmssm_categorization={"{ch}".format(ch=channel) : []}
         catsL_=nmssm_categorization["{ch}".format(ch=channel)]
-        for label in classdict.keys():               
-                catsL_.append(
-                        (Selection(name="{lab}".format(lab=label),  cuts=[("{ch}_max_index=={index}".format(ch=channel, index=classdict[label]), "category_selection")]),   [hist()]))
+        for label in classdict.keys():
+                if light_masses != 0:
+                        for light_mass in light_masses:               
+                                catsL_.append(
+                                        (Selection(name="{lab}".format(lab=label),  cuts=[("{ch}_max_index_{lm}=={index}".format(ch=channel, index=classdict[label],lm=light_mass), "category_selection")]),   [hist(light_mass)]))
+                else:
+                     catsL_.append(
+                                (Selection(name="{lab}".format(lab=label),  cuts=[("{ch}_max_index=={index}".format(ch=channel, index=classdict[label]), "category_selection")]),   [hist_standard()]))   
         nmssm_categorization={"{ch}".format(ch=channel) : catsL_}
+
         return nmssm_categorization
 
 
