@@ -64,7 +64,6 @@ else:
     nmssm=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_NMSSM_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
 
 if "tt" in args.channel:
-    ranks=464
     vars=["pt_1"
     ,"pt_2"
     ,"m_vis"
@@ -94,8 +93,8 @@ if "tt" in args.channel:
     ,"2016"
     ,"2017"
     ,"2018"]
+    ranks=len(vars)**2/2+len(vars)+len(vars)/2
 else:
-    ranks=324
     vars=["pt_1"
     ,"pt_2"
     ,"m_vis"
@@ -120,6 +119,7 @@ else:
     ,"2016"
     ,"2017"
     ,"2018"]
+    ranks=len(vars)**2/2+len(vars)+len(vars)/2
 
 vars_dict={}
 for var in vars:
