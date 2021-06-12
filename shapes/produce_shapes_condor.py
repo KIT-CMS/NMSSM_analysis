@@ -14,7 +14,7 @@ from config.shapes.file_names import files
 from config.shapes.process_selection import DY_process_selection, TT_process_selection, VV_process_selection, W_process_selection, ZTT_process_selection, ZL_process_selection, ZJ_process_selection, TTT_process_selection, TTL_process_selection, TTJ_process_selection, VVT_process_selection, VVJ_process_selection, VVL_process_selection, ggH125_process_selection, qqH125_process_selection, ZTT_embedded_process_selection, ZH_process_selection, WH_process_selection, ggHWW_process_selection, qqHWW_process_selection, ZHWW_process_selection, WHWW_process_selection, ttH_process_selection, VH_process_selection
 #from config.shapes.process_selection import SUSYbbH_process_selection, SUSYggH_process_selection, SUSYggH_Ai_contribution_selection, SUSYggH_At_contribution_selection, SUSYggH_Ab_contribution_selection, SUSYggH_Hi_contribution_selection, SUSYggH_Ht_contribution_selection, SUSYggH_Hb_contribution_selection, SUSYggH_hi_contribution_selection, SUSYggH_ht_contribution_selection, SUSYggH_hb_contribution_selection
 from config.shapes.process_selection import NMSSM_process_selection
-from config.shapes.process_selection import pseudodata_selection
+#from config.shapes.process_selection import pseudodata_selection
 # from config.shapes.category_selection import categorization
 from config.shapes.category_selection import  categorization #nn_categorization,
 # Variations for estimation of fake processes
@@ -177,12 +177,12 @@ def parse_arguments():
         type=str,
         help="tag"
     )
-    # parser.add_argument(
-    #     "--light_mass_batch",
-    #     default=None,
-    #     type=str,
-    #     help="tag"
-    # )
+    parser.add_argument(
+        "--light_mass_batch",
+        default=None,
+        type=str,
+        help="tag"
+    )
 
     return parser.parse_args()
 
@@ -197,25 +197,25 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/pNN_balanced_lm_mH1000/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
+    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/10_onenet/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
     from config.shapes.category_selection import nmssm_cat
-
-    # if "lm1" in args.light_mass_batch:
-    #     lm=[60, 70, 75, 80, 85]
-    # elif "lm2" in args.light_mass_batch:
-    #     lm=[90, 95, 100, 110, 120]
-    # elif "lm3" in args.light_mass_batch:
-    #     lm=[130, 150, 170, 190, 250]
-    # elif "lm4" in args.light_mass_batch:
-    #     lm=[300, 350, 400, 450, 500, 550]
-    # elif "lm5" in args.light_mass_batch:
-    #     lm=[600, 650, 700, 750, 800, 850]
-    # elif "lmall" in args.light_mass_batch:
-    #     lm=[60, 70, 75, 80, 85,90, 95, 100, 110, 120,130, 150, 170, 190, 250,300, 350, 400, 450, 500, 550,600, 650, 700, 750, 800, 850]
-    # else:
-    #     lm=0
-    # categorization=nmssm_cat(args.channels[0], classdict,lm)
-    categorization=nmssm_cat(args.channels[0], classdict)
+    if "lm1" in args.light_mass_batch:
+        lm=[60, 70, 75, 80, 85]
+    elif "lm2" in args.light_mass_batch:
+        lm=[90, 95, 100, 110, 120]
+    elif "lm3" in args.light_mass_batch:
+        lm=[130, 150, 170, 190, 250]
+    elif "lm4" in args.light_mass_batch:
+        lm=[300, 350, 400, 450, 500, 550]
+    elif "lm5" in args.light_mass_batch:
+        lm=[600, 650, 700, 750, 800, 850]
+    elif "lmall" in args.light_mass_batch:
+        lm=[60, 70, 75, 80, 85, 90, 95, 100, 110, 120,130, 150, 170, 190, 250,300, 350, 400, 450, 500, 550,600, 650, 700, 750, 800, 850]
+        #lm=[170, 190, 250,300]
+    else:
+        lm=0
+    categorization=nmssm_cat(args.channels[0], classdict,lm)
+    #categorization=nmssm_cat(args.channels[0], classdict)
     #Parse given arguments.
     friend_directories = {
         "et": args.et_friend_directory,
@@ -251,11 +251,11 @@ def main(args):
 
     def get_analysis_units(channel, era, datasets, nn_shapes=False):
         return {
-                "pseudodata" : [Unit(
-                            datasets["pseudodata"], [
-                                channel_selection(channel, era),
-                                pseudodata_selection(channel, era),
-                                category_selection], actions) for category_selection, actions in categorization[channel]],
+                # "pseudodata" : [Unit(
+                #             datasets["pseudodata"], [
+                #                 channel_selection(channel, era),
+                #                 pseudodata_selection(channel, era),
+                #                 category_selection], actions) for category_selection, actions in categorization[channel]],
                 "data" : [Unit(
                             datasets["data"], [
                                 channel_selection(channel, era),
@@ -359,11 +359,11 @@ def main(args):
         
     def get_control_units(channel, era, datasets):
         return {
-                'pseudodata' : [Unit(
-                   datasets['pseudodata'],[
-                       channel_selection(channel, era),
-                       pseudodata_selection(channel, era)],
-                       [control_binning[channel][v] for v in set(control_binning[channel].keys()) & set(args.control_plot_set)])],
+                # 'pseudodata' : [Unit(
+                #    datasets['pseudodata'],[
+                #        channel_selection(channel, era),
+                #        pseudodata_selection(channel, era)],
+                #        [control_binning[channel][v] for v in set(control_binning[channel].keys()) & set(args.control_plot_set)])],
                'data' : [Unit(
                    datasets['data'],[
                        channel_selection(channel, era)],
@@ -468,10 +468,9 @@ def main(args):
             nominals[args.era]['units'][channel] = get_analysis_units(channel, args.era, nominals[args.era]['datasets'][channel])
 
     um = UnitManager()
-
+    #procS = {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w", "ggh", "qqh","vh","tth"} 
     if args.process_selection is None:
-        procS = {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w",
-                 "ggh", "qqh","vh","tth"} \
+        procS = {"data", "emb", "zl", "ttl", "vvl", "ggh", "qqh","vh","tth"} \
                 | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
     elif "nmssm" in args.process_selection:
         procS = (args.process_selection | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)) - {"nmssm"}
@@ -612,5 +611,5 @@ if __name__ == "__main__":
         log_file = args.output_file.replace(".root", ".log")
     else:
         log_file = "{}.log".format(args.output_file)
-    setup_logging(log_file, logging.DEBUG)
+    setup_logging(log_file, logging.INFO)
     main(args)
