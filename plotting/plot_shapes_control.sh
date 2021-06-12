@@ -13,11 +13,11 @@ do
     do
         for era in 2017 # 2016 2017 2018
         do
-            INPUT=output/10_onenet/uncert_shapes/2016-et.root #"fit_output/${TAG}/${lm}/output_combined_all_1000_0_nmssm_1000_${lm}/combined/cmb/prefitshape.root"
-            for cat in NMSSM #1 2 3 4 5 #emb tt ff misc NMSSM
+            INPUT="fit_output/${TAG}/${lm}/output_combined_all_1000_0_nmssm_1000_${lm}/combined/cmb/prefitshape.root"
+            for cat in 1 2 3 4 5 #emb tt ff misc NMSSM
             do
-            python plotting/plot_shapes_control.py -l --era Run${ERA} --input $INPUT --variables et_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG} --blinded
-            # python plotting/pre_postfit.py -l --era ${era} --input $INPUT --variables ${ch}_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG}/${lm} --prepost ${PREPOST} --blinded --light_mass ${lm}
+            #python plotting/plot_shapes_control.py -l --era Run${ERA} --input $INPUT --variables et_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG} --blinded
+            python plotting/pre_postfit.py -l --era ${era} --input $INPUT --variables ${ch}_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG}/${lm} --prepost ${PREPOST} --blinded --light_mass ${lm}
             done 
         done
     done
