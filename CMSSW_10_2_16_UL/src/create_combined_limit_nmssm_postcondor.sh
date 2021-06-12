@@ -2551,14 +2551,14 @@ fi
 # fi
 
 #para
-combineTool.py -M CollectLimits fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/${MASS_H2}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
+# combineTool.py -M CollectLimits fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/${MASS_H2}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
 
 ##68_onenet
-#combineTool.py -M CollectLimits fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
+combineTool.py -M CollectLimits fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
 
 ###prefit shapes
 
-# PostFitShapesFromWorkspace -d fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/combined.txt.cmb -w fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root -o fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/prefitshape.root -f fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine.NMSSM_1000_125_.AsymptoticLimits.mH${MASS_H2} --freeze r_NMSSM_${MASS}_125_${MASS_H2}=1.
+#PostFitShapesFromWorkspace -d fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/combined.txt.cmb -w fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root -o fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/prefitshape.root -f fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine.NMSSM_1000_125_.AsymptoticLimits.mH${MASS_H2} --freeze r_NMSSM_${MASS}_125_${MASS_H2}=1.
 
 ##postfit shapes
 
