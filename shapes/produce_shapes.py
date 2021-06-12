@@ -178,9 +178,9 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict="/work/rschmieder/nmssm_analysis/sm-htt-analysis/output/ml/68_onenet/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
+    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/pNN_balanced_lm_mH1000/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
     from config.shapes.category_selection import nmssm_cat
-    categorization=nmssm_cat(args.channels[0], classdict)
+    categorization=nmssm_cat(args.channels[0], classdict,0)
     #Parse given arguments.
     friend_directories = {
         "et": args.et_friend_directory,
@@ -427,8 +427,7 @@ def main(args):
     um = UnitManager()
 
     if args.process_selection is None:
-        procS = {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w",
-                 "ggh", "qqh","vh","tth"} \
+        procS = {"data", "emb", "zl", "ttl", "vvl", "ggh", "qqh","vh","tth"} \
                 | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
     elif "nmssm" in args.process_selection:
         procS = (args.process_selection | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)) - {"nmssm"}
@@ -571,5 +570,5 @@ if __name__ == "__main__":
         log_file = args.output_file.replace(".root", ".log")
     else:
         log_file = "{}.log".format(args.output_file)
-    setup_logging(log_file, logging.DEBUG)
+    setup_logging(log_file, logging.INFO)
     main(args)

@@ -32,7 +32,7 @@ def setup_logging(output_file, level=logging.DEBUG):
     file_handler = logging.FileHandler(output_file, "w")
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
-
+#@profile
 def main(args):
 
     with open(args.input, "rb") as f:

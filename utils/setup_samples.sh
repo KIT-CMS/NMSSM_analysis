@@ -16,31 +16,31 @@ batch=$3
 
 #### ERA specific part. If a sample is not available comment it out here.
 # Samples Run2016
-ARTUS_OUTPUTS_2016="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2016/${CHANNEL}/"
-#ARTUS_OUTPUTS_2016="/ceph/jbechtel/nmssm/ntuples/2016/${CHANNEL}/"
+#ARTUS_OUTPUTS_2016="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2016/${CHANNEL}/"
+ARTUS_OUTPUTS_2016="/ceph/jbechtel/nmssm/ntuples/2016/${CHANNEL}/"
 SVFit_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/SVFit/"
 FF_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/HHKinFit/"
-#NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/pNN_balanced_lm_bkgtrue_mH1000_pseudodata_ml300/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/10_onenet/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2016="/ceph/rschmieder/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/68_onenet_1nmssmclass/NNScore_workdir/NNScore_collected/"
 #NNScore_Friends_2016="/ceph/jbechtel/nmssm/friends/2016/${CHANNEL}/NNScore_train_all/NNScore_workdir/1000_${batch}/NNScore_workdir/NNScore_collected/"
 # Samples Run2017
-ARTUS_OUTPUTS_2017="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2017/${CHANNEL}/"
-#ARTUS_OUTPUTS_2017="/ceph/jbechtel/nmssm/ntuples/2017/${CHANNEL}/"
+#ARTUS_OUTPUTS_2017="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2017/${CHANNEL}/"
+ARTUS_OUTPUTS_2017="/ceph/jbechtel/nmssm/ntuples/2017/${CHANNEL}/"
 SVFit_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/SVFit/"
 FF_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/HHKinFit/"
-#NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/pNN_balanced_lm_bkgtrue_mH1000_pseudodata_ml300/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/10_onenet/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2017="/ceph/rschmieder/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/68_onenet_1nmssmclass/NNScore_workdir/NNScore_collected/"
 #NNScore_Friends_2017="/ceph/jbechtel/nmssm/friends/2017/${CHANNEL}/NNScore_train_all/NNScore_workdir/1000_${batch}/NNScore_workdir/NNScore_collected/"
 # Samples Run2018
-ARTUS_OUTPUTS_2018="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2018/${CHANNEL}/"
-#ARTUS_OUTPUTS_2018="/ceph/jbechtel/nmssm/ntuples/2018/${CHANNEL}/"
+#ARTUS_OUTPUTS_2018="/ceph/rschmieder/nmssm/temp_ntuples_mH1000_mL300_pseudodata_data/2018/${CHANNEL}/"
+ARTUS_OUTPUTS_2018="/ceph/jbechtel/nmssm/ntuples/2018/${CHANNEL}/"
 SVFit_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/SVFit/"
 FF_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/FakeFactors_nmssm/"
 HHKinFit_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/HHKinFit/"
-#NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/68_onenet_summed_score/NNScore_workdir/NNScore_collected/"
-NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/pNN_balanced_lm_bkgtrue_mH1000_pseudodata_ml300/NNScore_workdir/NNScore_collected/"
+NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/10_onenet/NNScore_workdir/NNScore_collected/"
+#NNScore_Friends_2018="/ceph/rschmieder/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/68_onenet_1nmssmclass/NNScore_workdir/NNScore_collected/"
 #NNScore_Friends_2018="/ceph/jbechtel/nmssm/friends/2018/${CHANNEL}/NNScore_train_all/NNScore_workdir/1000_${batch}/NNScore_workdir/NNScore_collected/"
 
 # ERA handling

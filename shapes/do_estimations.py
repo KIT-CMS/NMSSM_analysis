@@ -144,6 +144,13 @@ def fake_factor_estimation(rootfile, channel, selection, variable, variation="No
                                                 selection="-" + selection if selection != "" else "",
                                                 variation=variation,
                                                 variable=variable)))
+        print(_name_string.format(
+                                        dataset=_dataset_map[proc],
+                                        channel=channel,
+                                        process="-" + _process_map[proc],
+                                        selection="-" + selection if selection !="" else "",
+                                        variation=variation,
+                                        variable=variable))                                        
         base_hist.Add(rootfile.Get(_name_string.format(
                                         dataset=_dataset_map[proc],
                                         channel=channel,
@@ -151,6 +158,7 @@ def fake_factor_estimation(rootfile, channel, selection, variable, variation="No
                                         selection="-" + selection if selection !="" else "",
                                         variation=variation,
                                         variable=variable)), -1.0)
+    
     proc_name = "jetFakes" if is_embedding else "jetFakesMC"
     if variation in ["anti_iso"]:
         ff_variation = "Nominal"
@@ -308,14 +316,7 @@ def abcd_estimation(rootfile, channel, selection, variable,
                                 variation=variation,
                                 variable=variable
         ))
-    print(_name_string.format(
-                                dataset="data",
-                                channel=channel,
-                                process="",
-                                selection="-" + selection if selection != "" else "",
-                                variation=variation,
-                                variable=variable
-        ))    
+
     bin_zero=data_d.GetBinContent(0)
     bin_one=data_d.GetBinContent(1)
     data_d.SetBinContent(1,bin_zero+bin_one)
@@ -517,39 +518,40 @@ def main(args):
             logger.info("Do estimation for category %s", cat)
             for var in ff_inputs[ch][cat]:
                 for variation in ff_inputs[ch][cat][var]:
+                   # print(variation,ch,cat,var, input_file)
                     estimated_hist = fake_factor_estimation(input_file, ch, cat, var, variation=variation)
                     estimated_hist.Write()
-                    estimated_hist = fake_factor_estimation(input_file, ch, cat, var, variation=variation, is_embedding=False)
-                    estimated_hist.Write()
+                    # estimated_hist = fake_factor_estimation(input_file, ch, cat, var, variation=variation, is_embedding=False)
+                    # estimated_hist.Write()
     logger.info("Starting estimations for the QCD mulitjet process.")
     logger.debug("%s", json.dumps(qcd_inputs, sort_keys=True, indent=4))
-    for ch in qcd_inputs:
-        for cat in qcd_inputs[ch]:
-            logger.info("Do estimation for category %s", cat)
-            for var in qcd_inputs[ch][cat]:
-                for variation in qcd_inputs[ch][cat][var]:
-                    if ch in ["et", "mt", "em"]:
-                        if args.era == "2016":
-                            extrapolation_factor = 1.17
-                        else:
-                            extrapolation_factor = 1.0
-                        estimated_hist = qcd_estimation(input_file, ch, cat, var,
-                                                        variation=variation,
-                                                        extrapolation_factor=extrapolation_factor)
-                        estimated_hist.Write()
-                        estimated_hist = qcd_estimation(input_file, ch, cat, var,
-                                                        variation=variation,
-                                                        is_embedding=False,
-                                                        extrapolation_factor=extrapolation_factor)
-                        estimated_hist.Write()
-                    else:
-                        estimated_hist = abcd_estimation(input_file, ch, cat, var,
-                                                        variation=variation)
-                        estimated_hist.Write()
-                        estimated_hist = abcd_estimation(input_file, ch, cat, var,
-                                                        variation=variation,
-                                                        is_embedding=False)
-                        estimated_hist.Write()
+    # for ch in qcd_inputs:
+    #     for cat in qcd_inputs[ch]:
+    #         logger.info("Do estimation for category %s", cat)
+    #         for var in qcd_inputs[ch][cat]:
+    #             for variation in qcd_inputs[ch][cat][var]:
+    #                 if ch in ["et", "mt", "em"]:
+    #                     if args.era == "2016":
+    #                         extrapolation_factor = 1.17
+    #                     else:
+    #                         extrapolation_factor = 1.0
+    #                     estimated_hist = qcd_estimation(input_file, ch, cat, var,
+    #                                                     variation=variation,
+    #                                                     extrapolation_factor=extrapolation_factor)
+    #                     estimated_hist.Write()
+    #                     # estimated_hist = qcd_estimation(input_file, ch, cat, var,
+    #                     #                                 variation=variation,
+    #                     #                                 is_embedding=False,
+    #                     #                                 extrapolation_factor=extrapolation_factor)
+    #                     # estimated_hist.Write()
+    #                 else:
+    #                     estimated_hist = abcd_estimation(input_file, ch, cat, var,
+    #                                                     variation=variation)
+    #                     estimated_hist.Write()
+    #                     # estimated_hist = abcd_estimation(input_file, ch, cat, var,
+    #                     #                                 variation=variation,
+    #                     #                                 is_embedding=False)
+    #                     # estimated_hist.Write()
     if args.emb_tt:
         logger.info("Producing embedding ttbar variations.")
         logger.debug("%s", json.dumps(emb_categories, sort_keys=True, indent=4))

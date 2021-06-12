@@ -155,12 +155,14 @@ area_dict={}
 areas=np.zeros(len(vars))
 i=0
 for key in vars_dict.keys():
-    n,bins,patches=plt.hist(vars_dict[key],bins=range(0,324), cumulative=True,histtype="step")
+    n,bins,patches=plt.hist(vars_dict[key],bins=range(0,ranks), cumulative=True,histtype="step")
     area = sum(np.diff(bins)*n)
     area_dict[key]=area
     areas[i]=area
     plt.close()
     i+=1
+for key in vars_dict.keys():
+    print(round(area_dict[key]/norm,2))
 
 sort_areas=np.sort(areas)[::-1]
 fig = plt.figure()

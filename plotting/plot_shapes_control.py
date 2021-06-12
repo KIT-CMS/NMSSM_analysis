@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+print("a")
 import Dumbledraw.dumbledraw as dd
+print("b")
 import Dumbledraw.rootfile_parser_inputshapes as rootfile_parser
+print("b")
 import Dumbledraw.styles as styles
+print("b")
 import ROOT
-
+print("b")
 import argparse
 import copy
 import yaml
@@ -94,7 +97,7 @@ def setup_logging(output_file, level=logging.DEBUG):
 
 
 def main(info):
-
+    print("HIII")
     #add NMSSM masses to plot
     args = info["args"]
     mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
