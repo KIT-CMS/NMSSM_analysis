@@ -132,4 +132,15 @@ dmypy.json
 *.png
 *.pdf
 *.html
+#folders
+condor_*
+gof/
+htt-ml/
+log/
+memory_profile/
+output/
+plots/
+webgallery/
+CMSSW_10_2_16_UL/
+misc_scripts/
 fit_output/
