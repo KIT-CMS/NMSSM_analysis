@@ -8,6 +8,7 @@ TAG=$5
 MHS=$6
 CONTROL=$7
 SYS=$8
+CD="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/10_onenet/all_eras_et/dataset_config.yaml"
 [[ ! -z $1 && ! -z $2 && ! -z $3 && ! -z $4  && ! -z $5 ]] || ( echo "[ERROR] Number of given parameters is to small."; exit 1 )
 [[ ! -z $6 ]] || CONTROL=0
 CONTROL_ARG=""
@@ -160,6 +161,7 @@ then
                                     --graph-dir $OUTPUT \
                                     --tag $TAG \
                                     --light_mass_batch $MHS \
+                                    --classdict $CD\
                                     $CONTROL_ARG \
                                     $SYS_ARG
 
