@@ -227,11 +227,11 @@ fine_binning=[0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 
 #                 return classdict
 #         def hist():
 #                 if channel=="et":
-#                         return Histogram("et_summed_score", "et_summed_score", fine_binning)
+#                         return Histogram("et_max_score", "et_max_score", fine_binning)
 #                 elif channel=="mt":
-#                         return Histogram("mt_summed_score", "mt_summed_score", fine_binning)
+#                         return Histogram("mt_max_score", "mt_max_score", fine_binning)
 #                 else:
-#                         return Histogram("tt_summed_score", "tt_summed_score", fine_binning)
+#                         return Histogram("tt_max_score", "tt_max_score", fine_binning)
 #         classdict=readclasses()
 #         nmssm_categorization={"{ch}".format(ch=channel) : []}
 #         catsL_=nmssm_categorization["{ch}".format(ch=channel)]

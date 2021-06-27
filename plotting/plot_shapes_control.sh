@@ -4,24 +4,24 @@ source utils/setup_python.sh
 # ERA=$1
 # INPUT=$1
 
-TAG=pNN_balanced_lm_mH1000_data_finebinning
+TAG=10_onenet_summed_0_5
 PREPOST=prefit
-echo "hi"
-for lm in 550 #60 300 550 850
-do
+
+# for lm in 550 #60 300 550 850
+# do
     for ch in et mt tt
     do
-        for era in 2017 # 2016 2017 2018
+        for era in 2016 2017 2018
         do
-            INPUT="fit_output/${TAG}/${lm}/output_combined_all_1000_0_nmssm_1000_${lm}/combined/cmb/prefitshape.root"
-            for cat in 1 2 3 4 5 #emb tt ff misc NMSSM
+            INPUT="output/10_onenet_summed_0_5/uncert_shapes/${era}-${ch}.root"
+            for cat in NMSSM_MH321to500_boosted #1 2 3 4 5
             do
-            #python plotting/plot_shapes_control.py -l --era Run${ERA} --input $INPUT --variables et_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG} --blinded
-            python plotting/pre_postfit.py -l --era ${era} --input $INPUT --variables ${ch}_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG}/${lm} --prepost ${PREPOST} --blinded --light_mass ${lm}
+            python plotting/plot_shapes_control.py -l --era Run${era} --input $INPUT --variables ${ch}_summed_score --channels ${ch} --embedding --fake-factor  --tag ${TAG} --blinded --category-postfix ${cat}
+            #python plotting/pre_postfit.py -l --era ${era} --input $INPUT --variables ${ch}_max_score --channels ${ch} --embedding --fake-factor --category-postfix ${cat} --tag ${TAG} --prepost ${PREPOST} --blinded --normalize-by-bin-width #--light_mass ${lm} --normalize-by-bin-width
             done 
         done
     done
-done
+#done
 
 # for era in 2017 # 2016 2017 2018
 # do

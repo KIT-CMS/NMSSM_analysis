@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 
-parser = argparse.ArgumentParser(description='compare histograms in old and new framework in nmssm analysis')
+parser = argparse.ArgumentParser(description='2d taylor ranking plot')
 parser.add_argument(       
         "--era",
         required=True,
         type=str,
-        help="Experiment era."
+        help="Experiment era: either 2016,2017,2018 or all_eras"
 )
 parser.add_argument(       
         "--channel",
@@ -27,7 +27,7 @@ parser.add_argument(
         "--node",
         required=True,
         type=str,
-        help="all, or specific outputclass"
+        help="all, or specific outputclass: emb, ff, tt, misc, nmssm"
 )
 parser.add_argument(
         "--sorted",
@@ -38,17 +38,17 @@ parser.add_argument(
 args = parser.parse_args()
 
 if args.era == "all_eras":
-    emb=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_emb_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    tt=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_tt_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    ff=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_ff_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    misc=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_misc_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    nmssm=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_NMSSM_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    emb=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_emb_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    tt=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_tt_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    ff=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_ff_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    misc=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_misc_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    nmssm=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_NMSSM_MH500_3_2016.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
     for era in ["2017","2018"]:
-        emb_era=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_emb_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
-        tt_era=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_tt_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
-        ff_era=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_ff_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
-        misc_era=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_misc_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
-        nmssm_era=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_NMSSM_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
+        emb_era=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_emb_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
+        tt_era=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_tt_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
+        ff_era=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_ff_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
+        misc_era=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_misc_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
+        nmssm_era=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_NMSSM_MH500_3_{era}.txt".format(tag=args.tag,ch=args.channel,era=era),dtype=str,delimiter=":")
 
         emb=np.vstack((emb,emb_era))
         tt=np.vstack((tt,tt_era))
@@ -57,11 +57,11 @@ if args.era == "all_eras":
         nmssm=np.vstack((nmssm,nmssm_era))
 
 else: 
-    emb=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_emb_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    tt=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_tt_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    ff=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_ff_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    misc=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_misc_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
-    nmssm=np.loadtxt("/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}/fold0_keras_taylor_ranking_NMSSM_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    emb=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_emb_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    tt=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_tt_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    ff=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_ff_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    misc=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_misc_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
+    nmssm=np.loadtxt("/work/rschmieder/nmssm_analysis_68trainings_gpu_py3/sm-htt-analysis/output/ml/{tag}/all_eras_{ch}_500_3/fold0_keras_taylor_ranking_NMSSM_MH500_3_{era}.txt".format(tag=args.tag,ch=args.channel,era=args.era),dtype=str,delimiter=":")
 
 if "tt" in args.channel:
     vars=["pt_1"
@@ -89,7 +89,7 @@ if "tt" in args.channel:
     ,"kinfit_mh2"
     ,"kinfit_chi2"
     ,"highCSVjetUsedFordiBJetSystemCSV"
-    ,"NMSSM_light_mass"
+    #,"NMSSM_light_mass"
     ,"2016"
     ,"2017"
     ,"2018"]
@@ -115,7 +115,7 @@ else:
     ,"kinfit_mH"
     ,"kinfit_mh2"
     ,"kinfit_chi2"
-    ,"NMSSM_light_mass"
+    #,"NMSSM_light_mass"
     ,"2016"
     ,"2017"
     ,"2018"]
@@ -183,7 +183,7 @@ if args.sorted:
         cnt, edges = np.histogram(vars_dict[key], bins=range(-1,ranks+2))
         ax.step(edges[:-2], cnt[:-1].cumsum(),where="pre",label=key+"({area})".format(area=round(area_dict[key]/norm,2)))
 else:
-    int_vars=["NMSSM_light_mass","kinfit_chi2","m_sv_puppi", "kinfit_mh2", "kinfit_mH","m_vis","pt_1","pt_2"]
+    int_vars=[ "kinfit_mh2","kinfit_chi2","m_sv_puppi", "kinfit_mH","m_vis"]
     int_col=["b","g","r","c","m","y","k","darkorange","gold","limegreen","springgreen","royalblue","slategrey","darkviolet"]
     i=0
     for key in vars:
@@ -201,7 +201,7 @@ else:
 lgd=ax.legend(bbox_to_anchor=(1, 1))
 plt.ylabel(r"cumulative count")
 plt.xlabel(r"Taylor rank")
-plt.title(args.channel+" "+args.era+" "+args.tag+" "+args.node)
+#plt.title(args.channel+" "+args.era+" "+args.tag+" "+args.node)
 #plt.show()
 plt.tight_layout()
 print(args.tag,args.era,args.channel,args.node)

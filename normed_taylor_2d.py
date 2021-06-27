@@ -77,7 +77,6 @@ else:
 taylor_ranks=np.vstack((emb,tt,ff,misc,nmssm))
 
 if "tt" in args.channel:
-    ranks=464
     vars=["pt_1"
     ,"pt_2"
     ,"m_vis"
@@ -107,8 +106,8 @@ if "tt" in args.channel:
     ,"2016"
     ,"2017"
     ,"2018"]
+    ranks=len(vars)**2/2+len(vars)+len(vars)/2
 else:
-    ranks=324
     vars=["pt_1"
     ,"pt_2"
     ,"m_vis"
@@ -133,6 +132,7 @@ else:
     ,"2016"
     ,"2017"
     ,"2018"]
+    ranks=len(vars)**2/2+len(vars)+len(vars)/2
 
 #vars=["pt_1","NMSSM_light_mass"]
 vars_dict={}

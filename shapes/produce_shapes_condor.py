@@ -178,6 +178,12 @@ def parse_arguments():
         help="tag"
     )
     parser.add_argument(
+        "--classdict",
+        default=None,
+        type=str,
+        help="path to classdict"
+    )
+    parser.add_argument(
         "--light_mass_batch",
         default=None,
         type=str,
@@ -197,18 +203,22 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/10_onenet/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
+    classdict=args.classdict
     from config.shapes.category_selection import nmssm_cat
-    if "lm1" in args.light_mass_batch:
-        lm=[60, 70, 75, 80, 85]
-    elif "lm2" in args.light_mass_batch:
-        lm=[90, 95, 100, 110, 120]
-    elif "lm3" in args.light_mass_batch:
-        lm=[130, 150, 170, 190, 250]
-    elif "lm4" in args.light_mass_batch:
-        lm=[300, 350, 400, 450, 500, 550]
-    elif "lm5" in args.light_mass_batch:
-        lm=[600, 650, 700, 750, 800, 850]
+    if "1" in args.light_mass_batch:
+        lm=[60, 70, 75, 80]
+    elif "2" in args.light_mass_batch:
+        lm=[85, 90, 95, 100]
+    elif "3" in args.light_mass_batch:
+        lm=[110, 120, 130, 150]
+    elif "4" in args.light_mass_batch:
+        lm=[170, 190, 250, 300]
+    elif "5" in args.light_mass_batch:
+        lm=[350, 400, 450, 500]
+    elif "6" in args.light_mass_batch:
+        lm=[550, 600, 650, 700]
+    elif "7" in args.light_mass_batch:
+        lm=[750, 800, 850]
     elif "lmall" in args.light_mass_batch:
         lm=[60, 70, 75, 80, 85, 90, 95, 100, 110, 120,130, 150, 170, 190, 250,300, 350, 400, 450, 500, 550,600, 650, 700, 750, 800, 850]
         #lm=[170, 190, 250,300]

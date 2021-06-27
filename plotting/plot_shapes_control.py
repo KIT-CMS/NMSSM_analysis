@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-print("a")
+
 import Dumbledraw.dumbledraw as dd
-print("b")
 import Dumbledraw.rootfile_parser_inputshapes as rootfile_parser
-print("b")
 import Dumbledraw.styles as styles
-print("b")
 import ROOT
-print("b")
 import argparse
 import copy
 import yaml
@@ -97,11 +93,10 @@ def setup_logging(output_file, level=logging.DEBUG):
 
 
 def main(info):
-    print("HIII")
     #add NMSSM masses to plot
     args = info["args"]
     mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
-    mass_dict["light_mass_fine"]=[args.light_mass]
+    #mass_dict["light_mass_fine"]=[args.light_mass]
     
     variable = info["variable"]
     channel = info["channel"]
@@ -260,7 +255,7 @@ def main(info):
     
     NMSSM_rfile_dict={}
     NMSSM_bkg_dict={}
-
+    
     if "mm" not in channel:
         # get signal histograms
         for heavy_mass in mass_dict["heavy_mass"]:
@@ -275,7 +270,13 @@ def main(info):
         for i in plot_idx_to_add_signal:
             for nmssm_signals in NMSSM_rfile_dict:
                 if NMSSM_rfile_dict[nmssm_signals].Integral() > 0:
-                    NMSSM_scale = 1
+                    if "tt" in channel:
+                        if "NMSSM" in category:
+                            NMSSM_scale = 0.02
+                        else:
+                            NMSSM_scale = 100
+                    else:
+                        NMSSM_scale = 10
                 else:
                     NMSSM_scale = 0.0                        
                 if i in [0,1]: 
@@ -284,7 +285,7 @@ def main(info):
                     nmssm_signals)
                 plot.subplot(i).add_hist(NMSSM_rfile_dict[nmssm_signals], 
                     nmssm_signals+"_top")
-
+    print("ha")
     if "mm" not in channel:
         for nmssm_signals in NMSSM_rfile_dict:
             plot.subplot(0 if args.linear else 1).setGraphStyle(
@@ -419,7 +420,7 @@ def main(info):
     plot.legend(0).Draw()
     plot.legend(1).setAlpha(0.0)
     plot.legend(1).Draw()
-
+    
     for i in range(2):
         plot.add_legend(
             reference_subplot=2, pos=1, width=0.6, height=0.03)
@@ -473,8 +474,8 @@ def main(info):
     if not os.path.exists("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel)):
         os.mkdir("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel))
     print("Trying to save the created plot")
-    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
-    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s_150.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s_150.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
 
 
 if __name__ == "__main__":

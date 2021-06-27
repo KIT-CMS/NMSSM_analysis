@@ -181,7 +181,8 @@ sort=sorted(sums.items(), key=lambda item: item[1])
 sorted_dict = {k: v for k, v in sort}
 
 normed_summed_coeff=np.asarray(list(sorted_dict.values()))/np.sum(np.asarray(list(sorted_dict.values())))
-
+print(list(sorted_dict.keys()))
+print(normed_summed_coeff)
 plt.plot(normed_summed_coeff,range(len(sorted_dict)),marker=".",markersize=7 ,linestyle="")
 plt.yticks(range(len(sorted_dict)),list(sorted_dict.keys()))
 fig = plt.gcf()

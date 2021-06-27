@@ -2551,7 +2551,7 @@ fi
 # fi
 
 #para
-# combineTool.py -M CollectLimits fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/${MASS_H2}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
+#combineTool.py -M CollectLimits fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/${MASS_H2}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
 
 ##68_onenet
 combineTool.py -M CollectLimits fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine*.root --use-dirs -o fit_output/${TAG}/nmssm_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_${MASS}_${MASS_H2}.json
@@ -2561,16 +2561,16 @@ combineTool.py -M CollectLimits fit_output/${TAG}/output_combined_${CHANNEL}_${T
 #PostFitShapesFromWorkspace -d fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/combined.txt.cmb -w fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root -o fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/prefitshape.root -f fit_output/${TAG}/${MASS_H2}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/higgsCombine.NMSSM_1000_125_.AsymptoticLimits.mH${MASS_H2} --freeze r_NMSSM_${MASS}_125_${MASS_H2}=1.
 
 ##postfit shapes
-
+# echo "runs only on portal1"
 # combine \
 #     -M FitDiagnostics \
 #     -m 125 -d fit_output/${TAG}/output_combined_${CHANNEL}_${TRAINING_MASS}_${TRAINING_BATCH}_nmssm_${MASS}_${MASS_H2}/combined/cmb/ws.root \
 #     --robustFit 1 -v1 \
-#     -n "fit_output/${TAG}/.NMSSM_"combined"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH}"_"${MASS}"_125_"${MASS_H2} \
+#     -n ".NMSSM_"combined"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH}"_"${MASS}"_125_"${MASS_H2} \
 #     --X-rtd MINIMIZER_analytic \
 #     --cminDefaultMinimizerStrategy 0
-#     #--setParameters r=0 --freezeParameters r \
-
+#     --setParameters r=0 --freezeParameters r 
+# mv "fitDiagnostics.NMSSM_"combined"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH}"_"${MASS}"_125_"${MASS_H2}".root" fit_output/${TAG}/
 # FITFILE="fit_output/${TAG}/fitDiagnostics.NMSSM_"combined"_"${CHANNEL}"_"${TRAINING_MASS}"_"${TRAINING_BATCH}"_"${MASS}"_125_"${MASS_H2}".root"
 
 # python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a -f html $FITFILE  > combined_${CHANNEL}_nmssm_${MASS}_${MASS_H2}_diff_nuisances.html
