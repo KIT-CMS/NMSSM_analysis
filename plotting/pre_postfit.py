@@ -76,11 +76,11 @@ def parse_arguments():
         type=str,
         default=None,
         help="plots are stored in plots/tag/pre_postfit")
-    parser.add_argument(
-        "--light_mass",
-        type=int,
-        default=None,
-        help="considered light mass")
+    # parser.add_argument(
+    #     "--light_mass",
+    #     type=int,
+    #     default=None,
+    #     help="considered light mass")
     return parser.parse_args()
 
 
@@ -98,14 +98,13 @@ def setup_logging(output_file, level=logging.DEBUG):
 
 
 def main(info):
-    print("hi")
     args = info["args"]
     #add NMSSM masses to plot
     mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
-    mass_dict= {"heavy_mass": [1000],
-                "light_mass_coarse" : [60] 
-                }
-    mass_dict["light_mass_fine"]=[args.light_mass]
+    # mass_dict= {"heavy_mass": [1000],
+    #             "light_mass_coarse" : [60] 
+    #             }
+    # mass_dict["light_mass_fine"]=[args.light_mass]
     
     variable = info["variable"]
     channel = info["channel"]
@@ -123,7 +122,7 @@ def main(info):
         "2": "tt",
         "3": "misc",
         "4": "ff",
-        "5": "NMSSM"
+        "9": "NMSSM_MH321to500_boosted"
     }
     if args.linear == True:
         split_value = 0.1
@@ -249,7 +248,7 @@ def main(info):
     plot.add_hist(rootfile.get(args.era,channel, args.category_postfix, "data_obs"), "data_obs")
     data_norm = plot.subplot(0).get_hist("data_obs").Integral()
     plot.subplot(0).get_hist("data_obs").GetXaxis().SetMaxDigits(4)
-    if args.blinded and args.category_postfix=="5":
+    if args.blinded and args.category_postfix=="9":
         plot.subplot(0).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
         plot.subplot(0).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
     else:
@@ -258,23 +257,21 @@ def main(info):
     if args.linear:
         pass
     else:
-        if args.blinded and args.category_postfix=="5":
+        if args.blinded and args.category_postfix=="9":
             plot.subplot(1).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
         else:
             plot.subplot(1).setGraphStyle("data_obs", "e0")
     
     NMSSM_rfile_dict={}
     NMSSM_bkg_dict={}
-
     if "mm" not in channel:
         # get signal histograms
         for heavy_mass in mass_dict["heavy_mass"]:
             light_masses = mass_dict["light_mass_coarse"] if heavy_mass > 1001 else mass_dict["light_mass_fine"]
-            for light_mass in light_masses:
+            for light_mass in light_masses:           
                 if light_mass+125<heavy_mass:
                     NMSSM_rfile_dict["NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass,light_mass=light_mass)] = rootfile.get(args.era,
                             channel, args.category_postfix,"NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass,light_mass=light_mass)).Clone()
-                    
 
         plot_idx_to_add_signal = [0,2] if args.linear else [1,2]
         for i in plot_idx_to_add_signal:
@@ -284,12 +281,12 @@ def main(info):
                         if "tt" in channel:
                             NMSSM_scale = 0.5 #0.1
                         else:
-                            NMSSM_scale = 2
+                            NMSSM_scale = 1.
                     else:
                         if "tt" in channel:
                             NMSSM_scale = 500
                         else:
-                            NMSSM_scale = 1000
+                            NMSSM_scale = 5
                 else:
                     NMSSM_scale = 0.0                        
                 if i in [0,1]: 
@@ -298,13 +295,12 @@ def main(info):
                     nmssm_signals)
                 plot.subplot(i).add_hist(NMSSM_rfile_dict[nmssm_signals], 
                     nmssm_signals+"_top")
-
+    
     if "mm" not in channel:
         for nmssm_signals in NMSSM_rfile_dict:
             plot.subplot(0 if args.linear else 1).setGraphStyle(
                         nmssm_signals, "hist", linecolor=styles.color_dict[nmssm_signals], linewidth=3)
             plot.subplot(0 if args.linear else 1).setGraphStyle(nmssm_signals+"_top", "hist", linecolor=0)
-
     NMSSM_top=[]
     NMSSM_top_bkg=[]
     for nmssm_signals in NMSSM_rfile_dict:
@@ -327,7 +323,7 @@ def main(info):
                         "hist", linecolor=0)
         plot.subplot(2).normalize([
                         "total_bkg", "data_obs"] + NMSSM_bkg_dict.keys()+NMSSM_top_bkg, "total_bkg")
-        if args.blinded and args.category_postfix=="5":
+        if args.blinded and args.category_postfix=="9":
             plot.subplot(2).setGraphStyle("data_obs", "e0",markersize=0,linewidth=0)
     else:
         plot.subplot(2).normalize(["total_bkg", "data_obs"], "total_bkg")
@@ -365,15 +361,15 @@ def main(info):
         plot.subplot(1).setLogY()
     if variable != None:
         if variable in styles.x_label_dict[channel]:
-            x_label = styles.x_label_dict[channel][
-                variable]
+            #x_label = styles.x_label_dict[channel][variable]
+            x_label="y"
         else:
             x_label = variable
-        plot.subplot(2).setXlabel(x_label)
+        plot.subplot(2).setXlabel("y")
     else:
         plot.subplot(2).setXlabel("NN output")
     if args.normalize_by_bin_width:
-        plot.subplot(0).setYlabel("dN/d(NN output)")
+        plot.subplot(0).setYlabel("dN/dy")
     else:
         plot.subplot(0).setYlabel("N_{events}")
 
@@ -415,7 +411,8 @@ def main(info):
             "total_bkg", "data_obs"
         ])
 
-
+    #signal cross section in pb
+    signal_cs=NMSSM_scale*0.1
     # create legends
     suffix = ["", "_top"]
     for i in range(2):
@@ -427,7 +424,7 @@ def main(info):
         plot.legend(i).add_entry(0, "total_bkg", "Bkg. stat. unc.", 'f')
         if "mm" not in channel and args.draw_jet_fake_variation is None:
             for nmssm_signals in NMSSM_rfile_dict:
-                plot.legend(i).add_entry(0 if args.linear else 1, nmssm_signals+suffix[i], "H("+nmssm_signals[nmssm_signals.find("_")+1:nmssm_signals.find("125")-1]+")#rightarrowh(125)h'("+nmssm_signals[nmssm_signals.find("125")+4:]+")" , 'l')
+                plot.legend(i).add_entry(0 if args.linear else 1, nmssm_signals+suffix[i], "H("+nmssm_signals[nmssm_signals.find("_")+1:nmssm_signals.find("125")-1]+")#rightarrowh(125)h'("+nmssm_signals[nmssm_signals.find("125")+4:]+") ({signal_cs} pb)".format(signal_cs=signal_cs) , 'l')
         plot.legend(i).add_entry(0, "data_obs", "Observed", 'PE2L')
         plot.legend(i).setNColumns(2)
     plot.legend(0).Draw()
@@ -449,9 +446,10 @@ def main(info):
     plot.legend(2).Draw()
     plot.legend(3).setAlpha(0.0)
     plot.legend(3).Draw()
+    
     #draw scale text
-    signal_cs=NMSSM_scale*0.1
-    plot.DrawText(0.16, 0.8, "\sigma_{\mathrm{signal}}=%s\,\mathrm{pb}" %signal_cs,textsize=0.024)
+    #plot.DrawText(0.16, 0.8, "\sigma_{\mathrm{signal}}=%s\,\mathrm{pb}" %signal_cs,textsize=0.024)
+    
     # draw additional labels
     plot.DrawCMS()
     if "2016" in args.era:
