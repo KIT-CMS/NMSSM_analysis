@@ -1,7 +1,43 @@
-import numpy as np 
+import json
+import argparse
+import os
 import matplotlib.pyplot as plt
+import numpy as np
+from operator import itemgetter
+parser = argparse.ArgumentParser()
+parser.add_argument('--mass', type=str)
+args=parser.parse_args()
 
 
+path='/work/fheyen/nmsmm_framework/NMSSM_analysis_loads_of_nets/output/fitoutput/{}'.format(args.mass)
+
+paths=[]
+all_limits=[]
+minlim=9999.
+maxlim=0.
+midlim=0.
+mylist=[]
+
+
+for myfile in os.listdir(path):
+    filepath='/work/fheyen/nmsmm_framework/NMSSM_analysis_loads_of_nets/output/fitoutput/{}/{}'.format(args.mass,myfile)
+    myobj=open(filepath)
+    data=json.load(myobj)
+    limit=data['{}.0'.format(args.mass)]['exp0']
+    print('file: ' + str(filepath) + ' --- limit: ' + str(limit))  
+
+    number=filepath.split("_")[-4]
+    mylist.append([limit,int(number)])
+    all_limits.append(limit)
+    paths.append(filepath)
+    myobj.close()
+
+
+sort_by_value_list = sorted(mylist, key=lambda x: x[0])
+sort_by_number_list = sorted(mylist, key=lambda x: x[1])
+limits_by_number = list(map(itemgetter(0),sort_by_number_list))
+print(sort_by_number_list)
+print(limits_by_number)
 n=50
 classes=["emb","tt","misc","ff","NMSSM_MH1000_4"]
 nmssm_avg_ratio=np.zeros(n)
@@ -38,31 +74,14 @@ for i in range(n):
             ff_avg_ratio[i]=avg_ratio
         else:
             nmssm_avg_ratio[i]=avg_ratio
-        if i==12:
-            print(true_fold0)
 
-ratios=[nmssm_avg_ratio/np.mean(nmssm_avg_ratio),emb_avg_ratio/np.mean(emb_avg_ratio),ff_avg_ratio/np.mean(ff_avg_ratio),misc_avg_ratio/np.mean(misc_avg_ratio), tt_avg_ratio/np.mean(tt_avg_ratio)]
-
-#print(nmssm_avg_ratio[38])
-print("nmssm")
-print(nmssm_avg_ratio[34], nmssm_avg_ratio[12],nmssm_avg_ratio[36],nmssm_avg_ratio[6])
-print("emb")
-print(emb_avg_ratio[34],emb_avg_ratio[12],emb_avg_ratio[36],emb_avg_ratio[6])
-print("ff")
-print(ff_avg_ratio[34],ff_avg_ratio[12],ff_avg_ratio[36],ff_avg_ratio[6])
-print("misc")
-print(misc_avg_ratio[34],misc_avg_ratio[12],misc_avg_ratio[36],misc_avg_ratio[6])
-print("tt")
-print(tt_avg_ratio[34],tt_avg_ratio[12],tt_avg_ratio[36],tt_avg_ratio[6])
-
-print("ratios best/worst: nmssm, emb, ff, misc, tt")
-print(nmssm_avg_ratio[6]/nmssm_avg_ratio[12],emb_avg_ratio[6]/emb_avg_ratio[12],ff_avg_ratio[6]/ff_avg_ratio[12],misc_avg_ratio[6]/misc_avg_ratio[12],tt_avg_ratio[6]/tt_avg_ratio[12])
-print(nmssm_avg_ratio[np.argmax(nmssm_avg_ratio)],nmssm_avg_ratio[np.argmin(nmssm_avg_ratio)])
-labels=["nmssm","emb","jetfakes","misc","tt"]
-for i,ratio in enumerate(ratios):
-    plt.hist(ratio,histtype='step',label=labels[i])
-plt.legend()
-plt.xlabel("average signal background ratio")
-plt.ylabel("number of networks")
-plt.savefig("plots/Felix_50_trainings_early_stopping/avg_signal_bkg_ratio.png")
-plt.close()
+ratios=[nmssm_avg_ratio,emb_avg_ratio,ff_avg_ratio,misc_avg_ratio, tt_avg_ratio]
+tot_ratio=nmssm_avg_ratio/np.mean(nmssm_avg_ratio)+emb_avg_ratio/np.mean(emb_avg_ratio)+ff_avg_ratio/np.mean(ff_avg_ratio)+misc_avg_ratio/np.mean(misc_avg_ratio)+ tt_avg_ratio/np.mean(tt_avg_ratio)
+no_mean_ratio=nmssm_avg_ratio+emb_avg_ratio+ff_avg_ratio+misc_avg_ratio+tt_avg_ratio
+print(no_mean_ratio[1])
+plt.plot(limits_by_number,ratios[0],linestyle="",marker=".",markersize=7)
+plt.xlim(0.03,0.08)
+plt.xlabel(r"$95 \% \; \mathrm{CL}$")
+plt.ylabel(r"$ \langle r \rangle_{\mathrm{NMSSM}}$")
+plt.savefig("plots/Felix_50_trainings_early_stopping/total_ratio_over_limits_NMSSM.png")
+plt.show()

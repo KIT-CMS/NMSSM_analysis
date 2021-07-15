@@ -1,7 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
-n=33
+n=50
 nmssm_avg_score=np.zeros(n)
 emb_avg_score=np.zeros(n)
 ff_avg_score=np.zeros(n)
@@ -40,7 +40,7 @@ print(nmssm_avg_score[6]/nmssm_avg_score[12],emb_avg_score[6]/emb_avg_score[12],
 print(nmssm_avg_score_true[6]/nmssm_avg_score_true[12],emb_avg_score_true[6]/emb_avg_score_true[12],ff_avg_score_true[6]/ff_avg_score_true[12],misc_avg_score_true[6]/misc_avg_score_true[12],tt_avg_score_true[6]/tt_avg_score_true[12])
 labels=["nmssm","emb","jetfakes","misc","tt"]
 for i,score in enumerate(scores):
-    plt.hist(score,histtype='step',label=labels[i])
+    plt.hist(score/np.mean(score),histtype='step',label=labels[i])
 plt.legend()
 plt.xlabel("average score")
 plt.ylabel("number of networks")
@@ -48,7 +48,7 @@ plt.savefig("plots/Felix_50_trainings_early_stopping/all_scores.png")
 plt.close()
 
 for i,score in enumerate(scores_true):
-    plt.hist(score,histtype='step',label=labels[i])
+    plt.hist(score/np.mean(score),histtype='step',label=labels[i])
 plt.legend()
 plt.xlabel("average score")
 plt.ylabel("number of networks")
