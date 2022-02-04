@@ -70,11 +70,6 @@ def parse_arguments():
         type=str,
         default=None,
         help="plots are stored in plots/tag/")
-    parser.add_argument(
-        "--light_mass",
-        type=int,
-        default=None,
-        help="considered light mass")
 
     return parser.parse_args()
 
@@ -96,7 +91,7 @@ def main(info):
     #add NMSSM masses to plot
     args = info["args"]
     mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
-    
+
     variable = info["variable"]
     channel = info["channel"]
     channel_dict = {
@@ -269,7 +264,13 @@ def main(info):
         for i in plot_idx_to_add_signal:
             for nmssm_signals in NMSSM_rfile_dict:
                 if NMSSM_rfile_dict[nmssm_signals].Integral() > 0:
-                    NMSSM_scale = 0.01
+                    if "tt" in channel:
+                        if "NMSSM" in category:
+                            NMSSM_scale = 0.02
+                        else:
+                            NMSSM_scale = 100
+                    else:
+                        NMSSM_scale = 10
                 else:
                     NMSSM_scale = 0.0                        
                 if i in [0,1]: 
@@ -278,6 +279,7 @@ def main(info):
                     nmssm_signals)
                 plot.subplot(i).add_hist(NMSSM_rfile_dict[nmssm_signals], 
                     nmssm_signals+"_top")
+
     if "mm" not in channel:
         for nmssm_signals in NMSSM_rfile_dict:
             plot.subplot(0 if args.linear else 1).setGraphStyle(
@@ -406,7 +408,7 @@ def main(info):
         plot.legend(i).add_entry(0, "total_bkg", "Bkg. stat. unc.", 'f')
         if "mm" not in channel and args.draw_jet_fake_variation is None:
             for nmssm_signals in NMSSM_rfile_dict:
-                plot.legend(i).add_entry(0 if args.linear else 1, nmssm_signals+suffix[i], "H("+nmssm_signals[nmssm_signals.find("_")+1:nmssm_signals.find("125")-1]+")#rightarrowh(125)h'("+nmssm_signals[nmssm_signals.find("125")+4:]+")" , 'l')
+                plot.legend(i).add_entry(0 if args.linear else 1, nmssm_signals+suffix[i], "H("+nmssm_signals[nmssm_signals.find("_")+1:nmssm_signals.find("125")-1]+")#rightarrowh(125)h_S("+nmssm_signals[nmssm_signals.find("125")+4:]+")" , 'l')
         plot.legend(i).add_entry(0, "data_obs", "Observed", 'PE2L')
         plot.legend(i).setNColumns(2)
     plot.legend(0).Draw()
@@ -465,9 +467,9 @@ def main(info):
         os.mkdir("plots/%s/%s_plots_%s"%(args.tag,args.era,postfix))
     if not os.path.exists("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel)):
         os.mkdir("plots/%s/%s_plots_%s/%s"%(args.tag,args.era,postfix,channel))
-
-    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
-    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
+    print("Trying to save the created plot")
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s_150.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "pdf"))
+    plot.save("plots/%s/%s_plots_%s/%s/%s_%s_%s_%s_150.%s" % (args.tag,args.era, postfix, channel, args.era, channel, variable, args.category_postfix, "png"))
 
 
 if __name__ == "__main__":
