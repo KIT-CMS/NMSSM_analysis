@@ -189,14 +189,14 @@ def main(args):
         logging.info("Writing histograms to file %s with %s processes",
                      os.path.join(
                             args.output,
-                            "{ERA}-{CHANNELS}-synced-NMSSM.root".format(
+                            "htt_{CHANNELS}.inputs-nmssm-{ERA}-{CHANNELS}_max_score_500_10.root".format(
                                                                     CHANNELS=channel,
                                                                     ERA=args.era)),
                      args.num_processes)
         if not os.path.exists(args.output):
             os.mkdir(args.output)
         ofname = os.path.join(args.output,
-                              "{ERA}-{CHANNELS}-synced-NMSSM.root".format(
+                              "htt_{CHANNELS}.inputs-nmssm-{ERA}-{CHANNELS}_max_score_500_10.root".format(
                                   CHANNELS=channel,
                                   ERA=args.era))
         with multiprocessing.Pool(args.num_processes) as pool:
