@@ -14,7 +14,9 @@ from config.shapes.file_names import files
 from config.shapes.process_selection import DY_process_selection, TT_process_selection, VV_process_selection, W_process_selection, ZTT_process_selection, ZL_process_selection, ZJ_process_selection, TTT_process_selection, TTL_process_selection, TTJ_process_selection, VVT_process_selection, VVJ_process_selection, VVL_process_selection, ggH125_process_selection, qqH125_process_selection, ZTT_embedded_process_selection, ZH_process_selection, WH_process_selection, ggHWW_process_selection, qqHWW_process_selection, ZHWW_process_selection, WHWW_process_selection, ttH_process_selection, VH_process_selection
 #from config.shapes.process_selection import SUSYbbH_process_selection, SUSYggH_process_selection, SUSYggH_Ai_contribution_selection, SUSYggH_At_contribution_selection, SUSYggH_Ab_contribution_selection, SUSYggH_Hi_contribution_selection, SUSYggH_Ht_contribution_selection, SUSYggH_Hb_contribution_selection, SUSYggH_hi_contribution_selection, SUSYggH_ht_contribution_selection, SUSYggH_hb_contribution_selection
 from config.shapes.process_selection import NMSSM_process_selection
-
+#from config.shapes.process_selection import pseudodata_selection
+# from config.shapes.category_selection import categorization
+from config.shapes.category_selection import  categorization #nn_categorization,
 # Variations for estimation of fake processes
 from config.shapes.variations import same_sign, same_sign_em, anti_iso_lt, anti_iso_tt, abcd_method
 # Energy scale uncertainties
@@ -167,7 +169,7 @@ def parse_arguments():
         "--proc_arr",
         default=None,
         type=str,
-        help="processlist for pkl file"
+        help="process list for pkl file"
     )
     parser.add_argument(
         "--tag",
@@ -179,7 +181,13 @@ def parse_arguments():
         "--classdict",
         default=None,
         type=str,
-        help="path to config file from NN training to extract the classes"
+        help="path to classdict"
+    )
+    parser.add_argument(
+        "--light_mass_batch",
+        default=None,
+        type=str,
+        help="tag"
     )
 
     return parser.parse_args()
@@ -188,18 +196,36 @@ def parse_arguments():
 mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["analysis"]
 
 def light_masses(heavy_mass):
-        if heavy_mass > 1001:
+        if heavy_mass > 1000:
             return mass_dict["light_mass_coarse"]
         else:
             return mass_dict["light_mass_fine"]
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict=classdict=args.classdict
+    classdict=args.classdict
     from config.shapes.category_selection import nmssm_cat
-    categorization=nmssm_cat(args.channels[0], classdict)
 
-    #Parse given arguments.
+    if "1" in args.light_mass_batch:
+        lm=[60, 70, 75, 80]
+    elif "2" in args.light_mass_batch:
+        lm=[85, 90, 95, 100]
+    elif "3" in args.light_mass_batch:
+        lm=[110, 120, 130, 150]
+    elif "4" in args.light_mass_batch:
+        lm=[170, 190, 250, 300]
+    elif "5" in args.light_mass_batch:
+        lm=[350, 400, 450, 500]
+    elif "6" in args.light_mass_batch:
+        lm=[550, 600, 650, 700]
+    elif "7" in args.light_mass_batch:
+        lm=[750, 800, 850]
+    elif "lmall" in args.light_mass_batch:
+        lm=[60, 70, 75, 80, 85, 90, 95, 100, 110, 120,130, 150, 170, 190, 250,300, 350, 400, 450, 500, 550,600, 650, 700, 750, 800, 850]
+    else:
+        lm=0
+    categorization=nmssm_cat(args.channels[0], classdict,lm)
+
     friend_directories = {
         "et": args.et_friend_directory,
         "mt": args.mt_friend_directory,
@@ -441,19 +467,17 @@ def main(args):
             nominals[args.era]['units'][channel] = get_analysis_units(channel, args.era, nominals[args.era]['datasets'][channel])
 
     um = UnitManager()
-
-    #available sm processes are: {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w", "ggh", "qqh","vh","tth"}
-    #necessary processes for analysis with emb and ff method are: {"data", "emb", "zl", "ttl","ttt", "vvl","ttt" "ggh", "qqh","vh","tth"}
+    #procS = {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w", "ggh", "qqh","vh","tth"} 
     if args.process_selection is None:
-        procS = {"data", "emb", "zl", "ttl", "ttt", "vvl", "ggh", "qqh","vh","tth"} \
+        procS = {"data", "emb", "zl", "ttl", "vvl", "ggh", "qqh","vh","tth"} \
                 | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
     elif "nmssm" in args.process_selection:
-        procS = set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
+        procS = (args.process_selection | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)) - {"nmssm"}
     else:
         procS = args.process_selection
 
     print("Processes to be computed: ", procS)
-    dataS = {"data"} & procS
+    dataS = {"data"} & procS 
     embS = {"emb"} & procS
     jetFakesDS = {
         "et": {"zj", "ttj", "vvj", "w"} & procS,
@@ -563,7 +587,7 @@ def main(args):
         if args.control_plots:
             graph_file_name = "control_unit_graphs-{}-{}-{}.pkl".format(args.era, ",".join(args.channels), ",".join(sorted(procS)))
         else:
-            graph_file_name = "analysis_unit_graphs-{}-{}-{}-{}.pkl".format(args.tag,args.era, ",".join(args.channels), args.proc_arr)
+            graph_file_name = "analysis_unit_graphs-{}-{}-{}-{}-{}.pkl".format(args.tag,args.era, ",".join(args.channels), args.proc_arr,args.light_mass_batch)
         if args.graph_dir is not None:
             graph_file = os.path.join(args.graph_dir, graph_file_name)
         else:
