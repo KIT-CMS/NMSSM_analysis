@@ -132,12 +132,6 @@ def parse_arguments():
         help="ROOT file where shapes will be stored."
     )
     parser.add_argument(
-        "--NN_config",
-        required=True,
-        type=str,
-        help="Path to the config file from your NN training"
-    )
-    parser.add_argument(
         "--control-plots",
         action="store_true",
         help="Produce shapes for control plots. Default is production of analysis shapes."
@@ -170,6 +164,7 @@ def parse_arguments():
         action="store_true",
         help="Enables check for double actions during booking. Takes long for all variations."
     )
+
     return parser.parse_args()
 
 #load NMSSM mass_dict
@@ -183,9 +178,9 @@ def light_masses(heavy_mass):
 
 def main(args): 
 #if nmssm_categorization, otherwise outcommend the following 3 lines:
-    classdict=args.NN_config
+    classdict="/work/rschmieder/nmssm_condor_analysis/sm-htt-analysis/output/ml/pNN_balanced_lm_mH1000/all_eras_{ch}/dataset_config.yaml".format(ch=args.channels[0])
     from config.shapes.category_selection import nmssm_cat
-    categorization=nmssm_cat(args.channels[0], classdict)
+    categorization=nmssm_cat(args.channels[0], classdict,0)
     #Parse given arguments.
     friend_directories = {
         "et": args.et_friend_directory,
@@ -426,20 +421,20 @@ def main(args):
             
             nominals[args.era]['units'][channel] = get_control_units(channel, args.era, nominals[args.era]['datasets'][channel])
         else:
+            print(nominals[args.era]['datasets'][channel])
             nominals[args.era]['units'][channel] = get_analysis_units(channel, args.era, nominals[args.era]['datasets'][channel])
 
     um = UnitManager()
 
-    #available sm processes are: {"data", "emb", "ztt", "zl", "zj", "ttt", "ttl", "ttj", "vvt", "vvl", "vvj", "w", "ggh", "qqh","vh","tth"}
-    #necessary processes for analysis with emb and ff method are: {"data", "emb", "zl", "ttl","ttt", "vvl","ttt" "ggh", "qqh","vh","tth"}
     if args.process_selection is None:
-        procS = {"data", "emb", "zl", "ttl", "ttt", "vvl", "ggh", "qqh","vh","tth"} \
+        procS = {"data", "emb", "zl", "ttl", "vvl", "ggh", "qqh","vh","tth"} \
                 | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
     elif "nmssm" in args.process_selection:
-        procS = set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)
+        procS = (args.process_selection | set("NMSSM_{heavy_mass}_125_{light_mass}".format(heavy_mass=heavy_mass, light_mass=light_mass) for heavy_mass in mass_dict["heavy_mass"] for light_mass in light_masses(heavy_mass) if light_mass+125<heavy_mass)) - {"nmssm"}
+
     else:
         procS = args.process_selection
-        
+
     print("Processes to be computed: ", procS)
     dataS = {"data"} & procS
     embS = {"emb"} & procS
@@ -575,5 +570,5 @@ if __name__ == "__main__":
         log_file = args.output_file.replace(".root", ".log")
     else:
         log_file = "{}.log".format(args.output_file)
-    setup_logging(log_file, logging.DEBUG)
+    setup_logging(log_file, logging.INFO)
     main(args)
